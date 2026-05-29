@@ -1802,3 +1802,29 @@ button,
   background: #bbada0;
   border-radius: 6px;
 }
+
+#rankingBox {
+  overflow: hidden !important;
+}
+
+#rankingList {
+  max-height: 210px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 10px;
+  box-sizing: border-box;
+}
+
+#rankingList::-webkit-scrollbar {
+  width: 6px;
+}
+
+#rankingList::-webkit-scrollbar-track {
+  background: #eee4da;
+  border-radius: 6px;
+}
+
+#rankingList::-webkit-scrollbar-thumb {
+  background: #bbada0;
+  border-radius: 6px;
+}
