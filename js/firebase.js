@@ -68,15 +68,16 @@ export async function handleRedirectLogin() {
   try {
     const result = await getRedirectResult(auth);
 
-    alert(result?.user
-      ? `ログイン成功: ${result.user.email}`
-      : "リダイレクト結果なし"
-    );
+    if (result?.user) {
+      console.log("リダイレクトログイン成功:", result.user.email);
+    } else {
+      console.log("リダイレクト結果なし");
+    }
 
     return result;
   } catch (error) {
-    alert(`${error.code}\n${error.message}`);
     console.error("リダイレクトログインエラー", error);
+    alert(`${error.code}\n${error.message}`);
     return null;
   }
 }
