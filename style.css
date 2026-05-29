@@ -1770,10 +1770,12 @@ button,
 }
 
 /* ===== ランキングのスクロールバー ===== */
-
 #rankingBox,
 #standaloneRankingBox,
 .ranking-modal-window {
+  padding-right: 10px;
+  box-sizing: border-box;
+
   scrollbar-width: thin;
   scrollbar-color: #bbada0 #eee4da;
 }
@@ -1789,6 +1791,9 @@ button,
 .ranking-modal-window::-webkit-scrollbar-track {
   background: #eee4da;
   border-radius: 6px;
+
+  /* 上下に余白 */
+  margin: 8px 0;
 }
 
 #rankingBox::-webkit-scrollbar-thumb,
