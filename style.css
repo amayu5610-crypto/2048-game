@@ -1916,3 +1916,51 @@ button,
   font-size: 16px;
   color: #5f5147;
 }
+
+/* ===== スマホのプレイ画面をコンパクト化 ===== */
+@media (max-width: 500px) {
+  body.playing {
+    overflow: hidden !important;
+    height: 100vh;
+  }
+
+  body.playing h1 {
+    font-size: 42px;
+    margin: 4px 0 6px;
+  }
+
+  body.playing #gameScreen {
+    width: 96vw;
+    padding: 0;
+  }
+
+  body.playing #difficulty,
+  body.playing #score,
+  body.playing #bestScore,
+  body.playing #status {
+    display: block !important;
+    min-width: 0 !important;
+    width: fit-content !important;
+    max-width: 90vw !important;
+    margin: 5px auto !important;
+    padding: 7px 18px !important;
+    font-size: 18px !important;
+    border-radius: 12px;
+  }
+
+  body.playing #board {
+    margin: 10px auto 12px !important;
+    touch-action: none !important;
+  }
+
+  body.playing .actions {
+    margin-top: 6px !important;
+    margin-bottom: 0 !important;
+    gap: 8px;
+  }
+
+  body.playing .actions button {
+    padding: 10px 16px;
+    font-size: 15px;
+  }
+}

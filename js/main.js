@@ -230,11 +230,13 @@ async function saveNicknameFromInput() {
 }
 
 function openHome() {
+  document.body.classList.remove("playing");
   stopTimer();
   showOnly("homeScreen");
 }
 
 function openModeSelect() {
+  document.body.classList.remove("playing");
   stopTimer();
   showOnly("modeSelectScreen");
 
@@ -268,6 +270,7 @@ function openModeSelect() {
 }
 
 function openRanking() {
+  document.body.classList.remove("playing");
   stopTimer();
   showOnly("rankingScreen");
   renderRankingModeButtons($("rankingModeMenu"), key => {
@@ -279,6 +282,7 @@ function openRanking() {
 }
 
 async function openStats() {
+  document.body.classList.remove("playing");
   stopTimer();
   showOnly("statsScreen");
 
@@ -342,10 +346,15 @@ function openAchievements() {
 async function startSelectedMode(modeKey = "normal") {
   selectedMode = modeKey;
   stopTimer();
+
   state = createStartedGame(modeKey);
+
   const best = await loadBestScore(currentUser?.uid, modeKey);
   state.best = best;
+
   showOnly("gameScreen");
+  document.body.classList.add("playing");
+
   render();
   startTimerIfNeeded();
 }
