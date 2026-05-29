@@ -60,21 +60,13 @@ export async function logoutFirebase() {
 
 export async function handleRedirectLogin() {
   try {
-    const result = await getRedirectResult(auth);
-
-    if (result?.user) {
-      console.log("リダイレクトログイン成功:", result.user.email);
-    } else {
-      console.log("リダイレクト結果なし");
-    }
-
-    return result;
+    return await getRedirectResult(auth);
   } catch (error) {
     console.error("リダイレクトログインエラー", error);
-    alert(`${error.code}\n${error.message}`);
     return null;
   }
 }
+
 
 export function normalizeName(name) {
   return String(name || "").trim().toLowerCase().replace(/\s+/g, "_");
