@@ -1369,7 +1369,13 @@ export function updateLocalStats(state) {
     score: state.score,
     maxTile,
     moveCount: state.moveCount,
-    createdAt: new Date().toLocaleString("ja-JP")
+    createdAt: new Date().toLocaleString("ja-JP" ,{
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit"
+    }),  
   });
   localStorage.setItem("history2048", JSON.stringify(history.slice(0, 50)));
   localStorage.setItem("stats2048", JSON.stringify(stats));
