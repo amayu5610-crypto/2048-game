@@ -1770,10 +1770,10 @@ button,
 }
 
 /* ===== ランキングのスクロールバー ===== */
-
 #rankingBox {
   overflow: hidden !important;
-  padding: 16px 14px 16px 20px;
+  padding: 16px 18px !important;
+  box-sizing: border-box;
 }
 
 #rankingList {
@@ -1781,12 +1781,14 @@ button,
   overflow-y: auto;
   overflow-x: hidden;
 
-  padding-left: 28px;
-  padding-right: 14px;
   margin: 0;
+  padding-left: 28px;
+  padding-right: 18px;
 
+  width: 100%;
   box-sizing: border-box;
 
+  scrollbar-gutter: stable;
   scrollbar-width: thin;
   scrollbar-color: #bbada0 #eee4da;
 }
@@ -1796,8 +1798,7 @@ button,
 }
 
 #rankingList::-webkit-scrollbar-track {
-  background: #eee4da;
-  border-radius: 6px;
+  background: transparent;
 }
 
 #rankingList::-webkit-scrollbar-thumb {
