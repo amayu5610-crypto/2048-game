@@ -49,9 +49,15 @@ export {
 export async function loginWithGoogle() {
   const provider = new GoogleAuthProvider();
   provider.setCustomParameters({ prompt: "select_account" });
+
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-  if (isMobile) return signInWithRedirect(auth, provider);
-  return signInWithPopup(auth, provider);
+
+  if (isMobile) {
+    await signInWithRedirect(auth, provider);
+    return;
+  }
+
+  await signInWithPopup(auth, provider);
 }
 
 export async function logoutFirebase() {
@@ -60,9 +66,19 @@ export async function logoutFirebase() {
 
 export async function handleRedirectLogin() {
   try {
-    await getRedirectResult(auth);
+    const result = await getRedirectResult(auth);
+
+    if (result?.user) {
+      console.log("リダイレクトログイン成功:", result.user.email);
+    } else {
+      console.log("リダイレクト結果なし");
+    }
+
+    return result;
   } catch (error) {
     console.error("リダイレクトログインエラー", error);
+    alert(`${error.code}\n${error.message}`);
+    return null;
   }
 }
 
