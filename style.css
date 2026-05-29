@@ -1769,22 +1769,29 @@ button,
   white-space: nowrap !important;/* 「Moves: 0」を1行に */
 }
 
-/* ===== ランキングのスクロールバー ===== */
+/* ===== ランキングのスクロールバー完成版 ===== */
+
 #rankingBox,
 #standaloneRankingBox {
   width: min(420px, 92vw);
   max-width: 100%;
+
   min-height: 260px;
   max-height: 260px;
 
   margin: 20px auto;
-  padding: 16px 20px;
+  padding: 16px 18px 16px 20px;
 
   background: #eee4da;
+  color: #776e65;
+
   border-radius: 16px;
+  border: 1px solid rgba(119, 110, 101, 0.12);
 
   overflow-y: auto;
   overflow-x: hidden;
+
+  box-sizing: border-box;
 
   scrollbar-width: thin;
   scrollbar-color: #bbada0 #eee4da;
@@ -1798,6 +1805,7 @@ button,
 #rankingBox::-webkit-scrollbar-track,
 #standaloneRankingBox::-webkit-scrollbar-track {
   background: #eee4da;
+  border-radius: 6px;
 }
 
 #rankingBox::-webkit-scrollbar-thumb,
@@ -1806,22 +1814,10 @@ button,
   border-radius: 6px;
 }
 
-/* ランキング表示中の親モーダルはスクロールさせない */
-.modal-content:has(#rankingBox) {
-  overflow: hidden !important;
-  padding: 20px !important;
-}
-
-/* スクロールはランキング枠だけ */
-#rankingBox {
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
-  max-height: 260px;
-  padding: 16px 20px !important;
-  box-sizing: border-box;
-}
-
-#rankingBox {
-  position: relative;
-  z-index: 2;
+#rankingList,
+#standaloneRankingList {
+  margin: 0;
+  padding-left: 28px;
+  padding-right: 8px;
+  text-align: left;
 }
