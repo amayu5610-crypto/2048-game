@@ -1820,3 +1820,8 @@ button,
   padding: 16px 20px !important;
   box-sizing: border-box;
 }
+
+#rankingBox {
+  position: relative;
+  z-index: 2;
+}
