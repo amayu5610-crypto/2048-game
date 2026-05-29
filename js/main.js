@@ -285,20 +285,24 @@ async function openStats() {
   const statsContent = $("statsContent");
   const historyContent = $("historyContent");
 
-  if (!statsContent || !historyContent) return;
+  if (!statsContent || !historyContent) {
+    console.error("statsContent または historyContent が見つかりません");
+    return;
+  }
 
   let stats = JSON.parse(localStorage.getItem("stats2048") || "{}");
 
   if (currentUser) {
-    const progress = await loadPlayerProgress(currentUser);
-    alert(progress?.stats ? "Firebase stats 読めた" : "Firebase stats なし");
+    try {
+      const progress = await loadPlayerProgress(currentUser);
 
-    if (progress?.stats) {
-      stats = progress.stats;
-      localStorage.setItem("stats2048", JSON.stringify(stats));
+      if (progress?.stats) {
+        stats = progress.stats;
+        localStorage.setItem("stats2048", JSON.stringify(stats));
+      }
+    } catch (error) {
+      console.error("My Scores同期読み込み失敗", error);
     }
-  } else {
-    alert("未ログインなのでFirebase読めない");
   }
 
   renderStats(stats, statsContent, historyContent);
