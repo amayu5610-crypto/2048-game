@@ -427,29 +427,65 @@ function restartRankingListener(modeKey, standalone = false) {
 async function searchFriend() {
   const input = $("friendSearchInput");
   const result = $("friendCompareResult");
+
   if (!input || !result) return;
+
   result.innerHTML = `<div class="empty">検索中...</div>`;
+
   try {
     const data = await searchFriendByName(input.value, currentUser?.uid);
-    const modesToShow = Object.keys(modes).filter(key => data.friendScores[key] || data.myScores[key]);
+
+    const modesToShow = Object.keys(modes)
+      .filter(key => data.friendScores[key] || data.myScores[key]);
+
     if (!modesToShow.length) {
       result.innerHTML = `<div class="empty">比較できるスコアがありません。</div>`;
       return;
     }
-    $("friendCompareHeaderPlaceholder") && ($("friendCompareHeaderPlaceholder").innerHTML =
-      `<div class="friend-compare-header"><span>自分</span><span>VS</span><span>${escapeText(data.friend.game_name || "友達")}</span></div>`);
+
+    const myName =
+      playerData?.game_name ||
+      currentUser?.displayName ||
+      "プレイヤー";
+
+    const friendName =
+      data.friend.game_name || "友達";
+
+    $("friendCompareHeaderPlaceholder") &&
+      ($("friendCompareHeaderPlaceholder").innerHTML = `
+        <div class="friend-compare-header">
+          <span>${escapeText(myName)}</span>
+          <span>VS</span>
+          <span>${escapeText(friendName)}</span>
+        </div>
+      `);
+
     result.innerHTML = modesToShow.map(key => {
       const mine = data.myScores[key] || 0;
       const friend = data.friendScores[key] || 0;
+
       const mineWin = mine > friend;
       const friendWin = friend > mine;
-      return `<div class="friend-compare-row">
-        <span class="friend-score ${mineWin ? "friend-score-win" : ""}">${Number(mine).toLocaleString()}</span>
-        <span class="friend-compare-mode">${escapeText(modes[key].label)}</span>
-        <span class="friend-score ${friendWin ? "friend-score-win" : ""}">${Number(friend).toLocaleString()}</span>
-      </div>`;
+
+      return `
+        <div class="friend-compare-row">
+          <span class="friend-score ${mineWin ? "friend-score-win" : ""}">
+            ${Number(mine).toLocaleString()}
+          </span>
+
+          <span class="friend-compare-mode">
+            ${escapeText(modes[key].label)}
+          </span>
+
+          <span class="friend-score ${friendWin ? "friend-score-win" : ""}">
+            ${Number(friend).toLocaleString()}
+          </span>
+        </div>
+      `;
     }).join("");
+
   } catch (error) {
-    result.innerHTML = `<div class="empty">${escapeText(error.message || "検索に失敗しました。")}</div>`;
+    result.innerHTML =
+      `<div class="empty">${escapeText(error.message || "検索に失敗しました。")}</div>`;
   }
 }
