@@ -441,10 +441,12 @@ async function searchFriend() {
     result.innerHTML = modesToShow.map(key => {
       const mine = data.myScores[key] || 0;
       const friend = data.friendScores[key] || 0;
-      return `<div class="compare-row">
-        <span>${Number(mine).toLocaleString()}</span>
-        <strong>${escapeText(modes[key].label)}</strong>
-        <span>${Number(friend).toLocaleString()}</span>
+      const mineWin = mine > friend;
+      const friendWin = friend > mine;
+      return `<div class="friend-compare-row">
+        <span class="friend-score ${mineWin ? "friend-score-win" : ""}">${Number(mine).toLocaleString()}</span>
+        <span class="friend-compare-mode">${escapeText(modes[key].label)}</span>
+        <span class="friend-score ${friendWin ? "friend-score-win" : ""}">${Number(friend).toLocaleString()}</span>
       </div>`;
     }).join("");
   } catch (error) {
