@@ -278,7 +278,7 @@ function openRanking() {
   }, selectedMode);
 }
 
-function openStats() {
+async function openStats() {
   stopTimer();
   showOnly("statsScreen");
 
@@ -290,7 +290,21 @@ function openStats() {
     return;
   }
 
-  const stats = JSON.parse(localStorage.getItem("stats2048") || "{}");
+  let stats = JSON.parse(localStorage.getItem("stats2048") || "{}");
+
+  if (currentUser) {
+    try {
+      const progress = await loadPlayerProgress(currentUser);
+
+      if (progress?.stats) {
+        stats = progress.stats;
+        localStorage.setItem("stats2048", JSON.stringify(stats));
+      }
+    } catch (error) {
+      console.error("My Scores同期読み込み失敗", error);
+    }
+  }
+
   renderStats(stats, statsContent, historyContent);
 }
 
