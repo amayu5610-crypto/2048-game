@@ -420,6 +420,9 @@ async function finishGame(title) {
     showAchievementNotification(item)
   );
 
+  console.log("保存時 currentUser:", currentUser);
+  console.log("保存時 stats:", stats);
+
   try {
     await saveScore({ user: currentUser, playerData, state });
     await savePlayerProgress(currentUser, stats);
