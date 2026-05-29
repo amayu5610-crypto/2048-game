@@ -166,9 +166,11 @@ body.playing #settingsToggleButton {
   margin: 0 0 10px;
 }
 
-/* ===== 共通スクロールバー（5箇所まとめて統一・カプセル型） ===== */
+/* ===== 共通スクロールバー（6箇所まとめて統一・カプセル型） ===== */
 .stats-scroll-body,
 .achievements-scroll-body,
+.ranking-scroll-body,
+.ranking-modal-window,
 .ranking-modal-window ol,
 #rankingList,
 #friendCompareResult {
@@ -178,6 +180,8 @@ body.playing #settingsToggleButton {
 
 .stats-scroll-body::-webkit-scrollbar,
 .achievements-scroll-body::-webkit-scrollbar,
+.ranking-scroll-body::-webkit-scrollbar,
+.ranking-modal-window::-webkit-scrollbar,
 .ranking-modal-window ol::-webkit-scrollbar,
 #rankingList::-webkit-scrollbar,
 #friendCompareResult::-webkit-scrollbar {
@@ -186,6 +190,8 @@ body.playing #settingsToggleButton {
 
 .stats-scroll-body::-webkit-scrollbar-track,
 .achievements-scroll-body::-webkit-scrollbar-track,
+.ranking-scroll-body::-webkit-scrollbar-track,
+.ranking-modal-window::-webkit-scrollbar-track,
 .ranking-modal-window ol::-webkit-scrollbar-track,
 #rankingList::-webkit-scrollbar-track,
 #friendCompareResult::-webkit-scrollbar-track {
@@ -194,6 +200,8 @@ body.playing #settingsToggleButton {
 
 .stats-scroll-body::-webkit-scrollbar-thumb,
 .achievements-scroll-body::-webkit-scrollbar-thumb,
+.ranking-scroll-body::-webkit-scrollbar-thumb,
+.ranking-modal-window::-webkit-scrollbar-thumb,
 .ranking-modal-window ol::-webkit-scrollbar-thumb,
 #rankingList::-webkit-scrollbar-thumb,
 #friendCompareResult::-webkit-scrollbar-thumb {
@@ -205,6 +213,8 @@ body.playing #settingsToggleButton {
 
 .stats-scroll-body::-webkit-scrollbar-thumb:hover,
 .achievements-scroll-body::-webkit-scrollbar-thumb:hover,
+.ranking-scroll-body::-webkit-scrollbar-thumb:hover,
+.ranking-modal-window::-webkit-scrollbar-thumb:hover,
 .ranking-modal-window ol::-webkit-scrollbar-thumb:hover,
 #rankingList::-webkit-scrollbar-thumb:hover,
 #friendCompareResult::-webkit-scrollbar-thumb:hover {
@@ -1778,43 +1788,4 @@ button,
   max-width: 220px !important;
   margin: 10px auto 0 !important;/* 改行して中央 */
   white-space: nowrap !important;/* 「Moves: 0」を1行に */
-}
-
-/* ===== フレンド比較 結果をカード風に ===== */
-
-.friend-compare-row {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-
-  gap: 10px;
-  padding: 10px 12px;
-  margin-bottom: 8px;
-
-  background: #f5efe8;
-  border: 2px solid #d4c5b5;
-  border-radius: 12px;
-}
-
-.friend-score {
-  font-size: 16px;
-  font-weight: bold;
-  color: #5f5147;
-  text-align: center;
-}
-
-.friend-compare-mode {
-  font-size: 13px;
-  font-weight: bold;
-  color: #9f8b77;
-  text-align: center;
-
-  padding: 4px 8px;
-  background: #eee4da;
-  border-radius: 999px;
-  white-space: nowrap;
-}
-
-.friend-score-win {
-  color: #f59563;
 }
