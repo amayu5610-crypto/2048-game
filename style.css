@@ -166,14 +166,14 @@ body.playing #settingsToggleButton {
   margin: 0 0 10px;
 }
 
-/* ===== 共通スクロールバー（5箇所まとめて統一） ===== */
+/* ===== 共通スクロールバー（5箇所まとめて統一・カプセル型） ===== */
 .stats-scroll-body,
 .achievements-scroll-body,
 .ranking-modal-window ol,
 #rankingList,
 #friendCompareResult {
   scrollbar-width: thin;
-  scrollbar-color: #bbada0 #eee4da;
+  scrollbar-color: #bbada0 transparent;
 }
 
 .stats-scroll-body::-webkit-scrollbar,
@@ -181,7 +181,7 @@ body.playing #settingsToggleButton {
 .ranking-modal-window ol::-webkit-scrollbar,
 #rankingList::-webkit-scrollbar,
 #friendCompareResult::-webkit-scrollbar {
-  width: 6px;
+  width: 14px;             /* gutter全体の幅 */
 }
 
 .stats-scroll-body::-webkit-scrollbar-track,
@@ -189,7 +189,7 @@ body.playing #settingsToggleButton {
 .ranking-modal-window ol::-webkit-scrollbar-track,
 #rankingList::-webkit-scrollbar-track,
 #friendCompareResult::-webkit-scrollbar-track {
-  background: #eee4da;
+  background: transparent; /* trackは透明にして背景と馴染ませる */
 }
 
 .stats-scroll-body::-webkit-scrollbar-thumb,
@@ -198,7 +198,18 @@ body.playing #settingsToggleButton {
 #rankingList::-webkit-scrollbar-thumb,
 #friendCompareResult::-webkit-scrollbar-thumb {
   background: #bbada0;
-  border-radius: 6px;
+  border-radius: 999px;                 /* 完全カプセル */
+  border: 4px solid transparent;        /* 透明な縁で上下左右に余白 */
+  background-clip: padding-box;         /* ← 縁の内側だけ色を塗る */
+}
+
+.stats-scroll-body::-webkit-scrollbar-thumb:hover,
+.achievements-scroll-body::-webkit-scrollbar-thumb:hover,
+.ranking-modal-window ol::-webkit-scrollbar-thumb:hover,
+#rankingList::-webkit-scrollbar-thumb:hover,
+#friendCompareResult::-webkit-scrollbar-thumb:hover {
+  background: #a89b8c;
+  background-clip: padding-box;
 }
 
 /* My Scoresのスクロール可能なコンテンツエリア */
