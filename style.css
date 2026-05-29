@@ -654,19 +654,16 @@ body.modal-open {
 }
 
 /* ===== ランキングモーダル（モード別・総合） ===== */
+/* ===== ランキングモーダル（モード別・総合） ===== */
 .ranking-modal-window {
   width: min(360px, 88vw);
   height: 420px;
   max-height: 70vh;
   padding: 18px 16px;
 
-  overflow-y: auto;
-  overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
-
-  /* ↓ 追加 */
-  scrollbar-width: thin;
-  scrollbar-color: #bbada0 #eee4da;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;              /* ← 外側は隠して角丸からはみ出させない */
 
   background: #eee4da;
   color: #776e65;
@@ -676,20 +673,8 @@ body.modal-open {
   box-sizing: border-box;
 }
 
-/* ↓ 新規追加（WebKit 用） */
-.ranking-modal-window::-webkit-scrollbar {
-  width: 6px;
-}
-.ranking-modal-window::-webkit-scrollbar-track {
-  background: #eee4da;
-  border-radius: 6px;
-}
-.ranking-modal-window::-webkit-scrollbar-thumb {
-  background: #bbada0;
-  border-radius: 6px;
-}
-
 .ranking-modal-window h2 {
+  flex: 0 0 auto;                /* タイトルは固定 */
   margin: 0 0 14px;
   font-size: 20px;
   text-align: center;
@@ -697,10 +682,31 @@ body.modal-open {
 }
 
 .ranking-modal-window ol {
+  flex: 1 1 auto;
+  min-height: 0;                 /* flex内でスクロールさせるための定番おまじない */
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+
   margin: 0;
   padding-left: 28px;
+  padding-right: 8px;
   text-align: left;
-  overflow: visible;
+
+  scrollbar-width: thin;
+  scrollbar-color: #bbada0 #eee4da;
+}
+
+.ranking-modal-window ol::-webkit-scrollbar {
+  width: 6px;
+}
+.ranking-modal-window ol::-webkit-scrollbar-track {
+  background: #eee4da;
+  border-radius: 6px;
+}
+.ranking-modal-window ol::-webkit-scrollbar-thumb {
+  background: #bbada0;
+  border-radius: 6px;
 }
 
 .ranking-modal-window li {
