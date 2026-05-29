@@ -133,11 +133,20 @@ export async function savePlayerProgress(user, stats) {
     localStorage.getItem("achievements2048") || "[]"
   );
 
-  await setDoc(doc(db, "players2048", user.uid, "progress", "summary"), {
-    stats,
-    achievements,
-    updated_at: new Date().toISOString()
-  }, { merge: true });
+  const history = JSON.parse(
+    localStorage.getItem("history2048") || "[]"
+  );
+
+  await setDoc(
+    doc(db, "players2048", user.uid, "progress", "summary"),
+    {
+      stats,
+      achievements,
+      history,
+      updated_at: new Date().toISOString()
+    },
+    { merge: true }
+  );
 }
 
 export async function loadPlayerProgress(user) {

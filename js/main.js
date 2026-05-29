@@ -290,7 +290,9 @@ async function openStats() {
     return;
   }
 
-  let stats = JSON.parse(localStorage.getItem("stats2048") || "{}");
+  let stats = JSON.parse(
+    localStorage.getItem("stats2048") || "{}"
+  );
 
   if (currentUser) {
     try {
@@ -298,8 +300,20 @@ async function openStats() {
 
       if (progress?.stats) {
         stats = progress.stats;
-        localStorage.setItem("stats2048", JSON.stringify(stats));
+
+        localStorage.setItem(
+          "stats2048",
+          JSON.stringify(progress.stats)
+        );
       }
+
+      if (progress?.history) {
+        localStorage.setItem(
+          "history2048",
+          JSON.stringify(progress.history)
+        );
+      }
+
     } catch (error) {
       console.error("My Scores同期読み込み失敗", error);
     }
