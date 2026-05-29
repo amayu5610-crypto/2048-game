@@ -169,7 +169,6 @@ function bindCategoryToggles() {
 
 function watchAuth() {
   onAuthStateChanged(auth, async user => {
-    alert(user ? `ログイン中: ${user.email}` : "user=null");
     currentUser = user || null;
     const loggedIn = Boolean(currentUser);
 
