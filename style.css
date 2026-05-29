@@ -166,28 +166,47 @@ body.playing #settingsToggleButton {
   margin: 0 0 10px;
 }
 
+/* ===== 共通スクロールバー（5箇所まとめて統一） ===== */
+.stats-scroll-body,
+.achievements-scroll-body,
+.ranking-modal-window ol,
+#rankingList,
+#friendCompareResult {
+  scrollbar-width: thin;
+  scrollbar-color: #bbada0 #eee4da;
+}
+
+.stats-scroll-body::-webkit-scrollbar,
+.achievements-scroll-body::-webkit-scrollbar,
+.ranking-modal-window ol::-webkit-scrollbar,
+#rankingList::-webkit-scrollbar,
+#friendCompareResult::-webkit-scrollbar {
+  width: 6px;
+}
+
+.stats-scroll-body::-webkit-scrollbar-track,
+.achievements-scroll-body::-webkit-scrollbar-track,
+.ranking-modal-window ol::-webkit-scrollbar-track,
+#rankingList::-webkit-scrollbar-track,
+#friendCompareResult::-webkit-scrollbar-track {
+  background: #eee4da;
+}
+
+.stats-scroll-body::-webkit-scrollbar-thumb,
+.achievements-scroll-body::-webkit-scrollbar-thumb,
+.ranking-modal-window ol::-webkit-scrollbar-thumb,
+#rankingList::-webkit-scrollbar-thumb,
+#friendCompareResult::-webkit-scrollbar-thumb {
+  background: #bbada0;
+  border-radius: 6px;
+}
+
 /* My Scoresのスクロール可能なコンテンツエリア */
 .stats-scroll-body {
   overflow-y: auto;
   overflow-x: hidden;
   flex: 1;
   padding: 14px 18px 20px;
-  scrollbar-width: thin;
-  scrollbar-color: #bbada0 #eee4da;
-}
-
-/* スクロールバーのカスタムスタイル（WebKit） */
-.stats-scroll-body::-webkit-scrollbar {
-  width: 6px;
-}
-
-.stats-scroll-body::-webkit-scrollbar-track {
-  background: #eee4da;
-}
-
-.stats-scroll-body::-webkit-scrollbar-thumb {
-  background: #bbada0;
-  border-radius: 6px;
 }
 
 #modeSelectScreen h2,
@@ -425,20 +444,6 @@ button:hover {
   margin: 0;
   padding: 10px 8px 0 28px;
   text-align: left;
-
-  scrollbar-width: thin;
-  scrollbar-color: #bbada0 #eee4da;
-}
-
-#rankingList::-webkit-scrollbar {
-  width: 6px;
-}
-#rankingList::-webkit-scrollbar-track {
-  background: #eee4da;
-}
-#rankingList::-webkit-scrollbar-thumb {
-  background: #bbada0;
-  border-radius: 6px;
 }
 
 #rankingList li {
@@ -673,7 +678,6 @@ body.modal-open {
 }
 
 /* ===== ランキングモーダル（モード別・総合） ===== */
-/* ===== ランキングモーダル（モード別・総合） ===== */
 .ranking-modal-window {
   width: min(360px, 88vw);
   height: 420px;
@@ -711,21 +715,6 @@ body.modal-open {
   padding-left: 28px;
   padding-right: 8px;
   text-align: left;
-
-  scrollbar-width: thin;
-  scrollbar-color: #bbada0 #eee4da;
-}
-
-.ranking-modal-window ol::-webkit-scrollbar {
-  width: 6px;
-}
-.ranking-modal-window ol::-webkit-scrollbar-track {
-  background: #eee4da;
-  border-radius: 6px;
-}
-.ranking-modal-window ol::-webkit-scrollbar-thumb {
-  background: #bbada0;
-  border-radius: 6px;
 }
 
 .ranking-modal-window li {
@@ -1285,22 +1274,6 @@ button,
   overflow-x: hidden;
   padding: 8px 20px 16px;
   flex: 1;
-  scrollbar-width: thin;
-  scrollbar-color: #bbada0 #eee4da;
-}
-
-#friendCompareResult::-webkit-scrollbar {
-  width: 6px;
-}
-
-#friendCompareResult::-webkit-scrollbar-track {
-  background: #eee4da;
-  border-radius: 0 16px 16px 0;
-}
-
-#friendCompareResult::-webkit-scrollbar-thumb {
-  background: #bbada0;
-  border-radius: 6px;
 }
 
 /* プレイヤー名（自分・フレンド） */
@@ -1455,21 +1428,6 @@ button,
   overflow-x: hidden;
   flex: 1;
   padding: 12px 16px 20px;
-  scrollbar-width: thin;
-  scrollbar-color: #bbada0 #eee4da;
-}
-
-.achievements-scroll-body::-webkit-scrollbar {
-  width: 6px;
-}
-
-.achievements-scroll-body::-webkit-scrollbar-track {
-  background: #eee4da;
-}
-
-.achievements-scroll-body::-webkit-scrollbar-thumb {
-  background: #bbada0;
-  border-radius: 6px;
 }
 
 /* カテゴリごとのブロック */
