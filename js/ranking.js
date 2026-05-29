@@ -213,7 +213,12 @@ export async function loadOverallRanking(container) {
         score: player.totalPoint
       }));
 
-    renderRanking(container, overallRows, false);
+    container.innerHTML = overallRows.map((row, index) => `
+      <div class="ranking-row">
+        <span class="rank">${index + 1}</span>
+        <span class="name">${escapeText(row.game_name || "ゲスト")}</span>
+      </div>
+    `).join("");
 
   } catch (error) {
     console.error("総合ランキング取得失敗", error);
