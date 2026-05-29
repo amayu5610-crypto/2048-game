@@ -290,9 +290,7 @@ async function openStats() {
     return;
   }
 
-  let stats = JSON.parse(
-    localStorage.getItem("stats2048") || "{}"
-  );
+  let stats = JSON.parse(localStorage.getItem("stats2048") || "{}");
 
   if (currentUser) {
     try {
@@ -300,19 +298,32 @@ async function openStats() {
 
       if (progress?.stats) {
         stats = progress.stats;
-
-        localStorage.setItem(
-          "stats2048",
-          JSON.stringify(progress.stats)
-        );
       }
 
       if (progress?.history) {
-        localStorage.setItem(
-          "history2048",
-          JSON.stringify(progress.history)
+        localStorage.setItem("history2048", JSON.stringify(progress.history));
+      }
+
+      // ランキング側 scores2048 の最高スコアを My Scores に反映
+      for (const key of Object.keys(modes)) {
+        const bestFromRanking = await loadBestScore(currentUser.uid, key);
+
+        if (!stats[key]) {
+          stats[key] = {
+            bestScore: 0,
+            playCount: 0,
+            maxTile: 0,
+            bestTime: null
+          };
+        }
+
+        stats[key].bestScore = Math.max(
+          Number(stats[key].bestScore || 0),
+          Number(bestFromRanking || 0)
         );
       }
+
+      localStorage.setItem("stats2048", JSON.stringify(stats));
 
     } catch (error) {
       console.error("My Scores同期読み込み失敗", error);
