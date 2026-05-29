@@ -14,6 +14,7 @@ import {
 } from "./firebase.js";
 import { escapeText } from "./ui.js";
 import { getMaxTile, getPlayTime } from "./game.js";
+import { modes } from "./modes.js";
 
 export async function loadBestScore(uid, mode) {
   if (!uid) return loadLocalBest(mode);
@@ -142,7 +143,7 @@ export async function syncPendingScores(user, playerData) {
 
 export function listenModeRanking(mode, container, titleEl) {
   if (!container) return () => {};
-  if (titleEl) titleEl.textContent = `${mode} ランキング`;
+  if (titleEl) titleEl.textContent = `${modes[mode]?.label || mode} ランキング`;
   const q = query(collection(db, "scores2048"), where("mode", "==", mode), orderBy("score", "desc"), limit(20));
   return onSnapshot(q, snap => {
     const rows = [];
@@ -156,14 +157,67 @@ export function listenModeRanking(mode, container, titleEl) {
 
 export async function loadOverallRanking(container) {
   if (!container) return;
+
   try {
-    const q = query(collection(db, "scores2048"), orderBy("score", "desc"), limit(30));
+    const q = query(collection(db, "scores2048"), orderBy("score", "desc"));
     const snap = await getDocs(q);
-    const rows = [];
-    snap.forEach(doc => rows.push(doc.data()));
-    renderRanking(container, rows, true);
+
+    const modeKeys = Object.keys(modes);
+    const players = {};
+
+    snap.forEach(doc => {
+      const data = doc.data();
+      const uid = data.uid;
+      const mode = data.mode;
+
+      if (!uid || !mode) return;
+
+      if (!players[uid]) {
+        players[uid] = {
+          uid,
+          game_name: data.game_name || "ゲスト",
+          modes: {},
+          totalPoint: 0
+        };
+      }
+
+      players[uid].modes[mode] = Number(data.score || 0);
+    });
+
+    const modeRanks = {};
+
+    modeKeys.forEach(mode => {
+      const ranked = Object.values(players)
+        .filter(player => player.modes[mode] !== undefined)
+        .sort((a, b) => b.modes[mode] - a.modes[mode]);
+
+      modeRanks[mode] = ranked;
+
+      ranked.forEach((player, index) => {
+        const rank = index + 1;
+
+        let point = 0;
+        if (rank === 1) point = 7;
+        else if (rank === 2) point = 5;
+        else if (rank === 3) point = 3;
+
+        player.totalPoint += point;
+      });
+    });
+
+    const overallRows = Object.values(players)
+      .filter(player => modeKeys.every(mode => player.modes[mode] !== undefined))
+      .sort((a, b) => b.totalPoint - a.totalPoint)
+      .map(player => ({
+        game_name: player.game_name,
+        score: player.totalPoint
+      }));
+
+    renderRanking(container, overallRows, false);
+
   } catch (error) {
-    container.innerHTML = `<div class="empty">ランキングを読み込めませんでした。</div>`;
+    console.error("総合ランキング取得失敗", error);
+    container.innerHTML = `<div class="empty">総合ランキングを読み込めませんでした。</div>`;
   }
 }
 

@@ -1880,3 +1880,39 @@ button,
     font-size: 11px;
   }
 }
+
+/* ===== モード別ランキング デザイン ===== */
+
+.ranking-row {
+  display: grid !important;
+  grid-template-columns: 42px 1fr auto;
+  align-items: center;
+  gap: 10px;
+
+  padding: 12px 14px !important;
+  margin-bottom: 8px;
+
+  background: #f5efe8;
+  border: 2px solid #d4c5b5;
+  border-radius: 12px;
+  border-bottom: 2px solid #d4c5b5 !important;
+}
+
+.ranking-row .rank {
+  font-size: 18px;
+  font-weight: 900;
+  color: #f59563;
+  text-align: center;
+}
+
+.ranking-row .name {
+  font-size: 15px;
+  font-weight: bold;
+  color: #5f5147;
+  text-align: left;
+}
+
+.ranking-row strong {
+  font-size: 16px;
+  color: #5f5147;
+}
