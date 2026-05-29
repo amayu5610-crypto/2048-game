@@ -1770,49 +1770,25 @@ button,
 }
 
 /* ===== ランキングのスクロールバー ===== */
-#rankingBox,
-#standaloneRankingBox,
-.ranking-modal-window {
-  padding-right: 10px;
-  box-sizing: border-box;
-
-  scrollbar-width: thin;
-  scrollbar-color: #bbada0 #eee4da;
-}
-
-#rankingBox::-webkit-scrollbar,
-#standaloneRankingBox::-webkit-scrollbar,
-.ranking-modal-window::-webkit-scrollbar {
-  width: 6px;
-}
-
-#rankingBox::-webkit-scrollbar-track,
-#standaloneRankingBox::-webkit-scrollbar-track,
-.ranking-modal-window::-webkit-scrollbar-track {
-  background: #eee4da;
-  border-radius: 6px;
-
-  /* 上下に余白 */
-  margin: 8px 0;
-}
-
-#rankingBox::-webkit-scrollbar-thumb,
-#standaloneRankingBox::-webkit-scrollbar-thumb,
-.ranking-modal-window::-webkit-scrollbar-thumb {
-  background: #bbada0;
-  border-radius: 6px;
-}
 
 #rankingBox {
   overflow: hidden !important;
+  padding: 16px 14px 16px 20px;
 }
 
 #rankingList {
   max-height: 210px;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-right: 10px;
+
+  padding-left: 28px;
+  padding-right: 14px;
+  margin: 0;
+
   box-sizing: border-box;
+
+  scrollbar-width: thin;
+  scrollbar-color: #bbada0 #eee4da;
 }
 
 #rankingList::-webkit-scrollbar {
