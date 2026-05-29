@@ -1805,3 +1805,18 @@ button,
   background: #bbada0;
   border-radius: 6px;
 }
+
+/* ランキング表示中の親モーダルはスクロールさせない */
+.modal-content:has(#rankingBox) {
+  overflow: hidden !important;
+  padding: 20px !important;
+}
+
+/* スクロールはランキング枠だけ */
+#rankingBox {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  max-height: 260px;
+  padding: 16px 20px !important;
+  box-sizing: border-box;
+}
