@@ -50,15 +50,9 @@ export async function loginWithGoogle() {
   const provider = new GoogleAuthProvider();
   provider.setCustomParameters({ prompt: "select_account" });
 
-  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-  if (isMobile) {
-    await signInWithRedirect(auth, provider);
-    return;
-  }
-
   await signInWithPopup(auth, provider);
 }
+
 
 export async function logoutFirebase() {
   await signOut(auth);
