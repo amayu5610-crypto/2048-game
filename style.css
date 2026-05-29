@@ -1768,3 +1768,32 @@ button,
   margin: 10px auto 0 !important;/* 改行して中央 */
   white-space: nowrap !important;/* 「Moves: 0」を1行に */
 }
+
+/* ===== ランキングのスクロールバー ===== */
+
+#rankingBox,
+#standaloneRankingBox,
+.ranking-modal-window {
+  scrollbar-width: thin;
+  scrollbar-color: #bbada0 #eee4da;
+}
+
+#rankingBox::-webkit-scrollbar,
+#standaloneRankingBox::-webkit-scrollbar,
+.ranking-modal-window::-webkit-scrollbar {
+  width: 6px;
+}
+
+#rankingBox::-webkit-scrollbar-track,
+#standaloneRankingBox::-webkit-scrollbar-track,
+.ranking-modal-window::-webkit-scrollbar-track {
+  background: #eee4da;
+  border-radius: 6px;
+}
+
+#rankingBox::-webkit-scrollbar-thumb,
+#standaloneRankingBox::-webkit-scrollbar-thumb,
+.ranking-modal-window::-webkit-scrollbar-thumb {
+  background: #bbada0;
+  border-radius: 6px;
+}
