@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>2048 オンラインランキング</title>
+  <link rel="stylesheet" href="./style.css?v=60005">
+  <link rel="icon" href="icon-192.png">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="manifest" href="manifest.json">
+</head>
+<body>
+  <header class="app-header">
+    <button id="settingsToggleButton" class="icon-btn" aria-label="設定">☰</button>
+    <h1>2048</h1>
+  </header>
+
+  <div id="settingsModal" class="modal hidden">
+    <div class="modal-content settings-window">
+      <button id="closeSettingsButton" class="close-btn">×</button>
+
+      <section id="settingsPanel" class="panel settings-panel">
+        <h2>設定</h2>
+
+        <div class="settings-menu">
+          <button id="accountInfoButton">アカウント情報</button>
+          <button id="updateHistoryButton" class="secondary">アップデート情報</button>
+        </div>
+
+        <div id="accountPanel" class="hidden">
+          <section id="authPanel">
+            <button id="loginButton">Googleでログイン</button>
+            <button id="logoutButton" class="secondary hidden">ログアウト</button>
+            <div id="loginStatus">未ログイン</div>
+            <div id="loginHelp">Googleでログインするとオンラインランキング・スコア共有が使えます。</div>
+          </section>
+
+          <section id="nicknamePanel" class="hidden">
+            <label for="nicknameInput">ニックネーム</label>
+            <input id="nicknameInput" type="text" maxlength="12" placeholder="ランキング名">
+            <button id="saveNicknameButton">保存</button>
+            <div id="nicknameHelp">
+              ランキングにはニックネームだけ表示されます。<br>
+              入力したら保存を押してください。
+            </div>
+          </section>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <section id="homeScreen" class="screen home-screen">
+    <button id="goModeButton" class="home-btn">ゲーム開始</button>
+    <button id="goRankingButton" class="home-btn">ランキング</button>
+    <button id="goStatsButton" class="home-btn">My Scores</button>
+    <button id="goAchievementsButton" class="home-btn">アチーブメント</button>
+  </section>
+
+  <div id="achievementsModal" class="modal hidden">
+    <div class="modal-content achievements-window">
+      <div class="achievements-fixed-header">
+        <button id="closeAchievementsButton" class="close-btn">×</button>
+        <h2>アチーブメント</h2>
+      </div>
+      <div id="achievementsContent" class="achievements-scroll-body"></div>
+    </div>
+  </div>
+
+  <section id="statsScreen" class="screen hidden">
+    <div class="stats-fixed-header">
+      <button id="backHomeFromStatsButton" class="secondary back-btn">← ホームへ戻る</button>
+      <h2>My Scores</h2>
+    </div>
+    <div class="stats-scroll-body">
+      <div id="statsContent" class="stats-content"></div>
+      <div id="historyContent" class="stats-content"></div>
+    </div>
+  </section>
+
+  <section id="modeSelectScreen" class="screen hidden">
+    <button id="backHomeFromModeButton" class="secondary back-btn">← ホームへ戻る</button>
+    <h2>モードを選択</h2>
+  
+    <div class="category-box">
+      <button class="category-toggle" data-category="basic">▶ 初級</button>
+      <div id="category-basic" class="category-content hidden"></div>
+
+      <button class="category-toggle" data-category="hard">▶ 中級</button>
+      <div id="category-hard" class="category-content hidden"></div>
+
+      <button class="category-toggle" data-category="special">▶ 上級</button>
+      <div id="category-special" class="category-content hidden"></div>
+
+      <button class="category-toggle" data-category="mode">▶ 特殊</button>
+      <div id="category-mode" class="category-content hidden"></div>
+    </div>
+
+    <section id="rankingBox">
+      <div class="ranking-header">
+        <h2 id="rankingTitle">Normal ランキング</h2>
+      </div>
+      <ol id="rankingList"></ol>
+    </section>
+  </section>
+
+  <section id="rankingScreen" class="screen hidden">
+    <button id="backHomeFromRankingButton" class="secondary back-btn">← ホームへ戻る</button>
+    <h2>ランキング</h2>
+
+    <div class="ranking-menu">
+      <button id="showModeRankingMenuButton">モード別ランキング</button>
+      <div id="rankingModeMenu" class="ranking-mode-menu hidden"></div>
+      <button id="showOverallRankingButton">総合ランキング</button>
+      <button id="showFriendCompareButton">他のプレイヤーと比較</button>
+    </div>
+
+    <div id="rankingModal" class="modal hidden">
+      <div class="modal-content ranking-modal-window">
+        <h2 id="standaloneRankingTitle">ランキング</h2>
+        <ol id="standaloneRankingList"></ol>
+      </div>
+    </div>
+
+    <div id="friendCompareModal" class="modal hidden">
+      <div class="modal-content friend-compare-window">
+        <div class="friend-compare-fixed">
+          <button id="closeFriendCompareButton" class="close-btn">×</button>
+          <h2>他のプレイヤーと比較</h2>
+          <div class="friend-search-row">
+            <input id="friendSearchInput" type="text" maxlength="12" placeholder="ニックネームを入力">
+            <button id="friendSearchBtn">検索</button>
+          </div>
+          <div id="friendCompareHeaderPlaceholder"></div>
+        </div>
+        <div id="friendCompareResult"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="gameScreen" class="screen hidden">
+    <div id="difficulty">Mode: Normal</div>
+    <div id="score">Score: 0</div>
+    <div id="bestScore">Best: 0</div>
+    <div id="status">Googleログインするとオンラインランキングに保存できます。</div>
+
+    <div id="board"></div>
+
+    <div class="actions">
+      <button id="restartInlineButton">リスタート</button>
+      <button id="backToModesInlineButton">モード選択へ戻る</button>
+    </div>
+  </section>
+
+  <script type="module" src="./js/main.js?v=60006"></script>
+</body>
+</html>

@@ -1,0 +1,1770 @@
+/* ===== 基本レイアウト ===== */
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: #faf8ef;
+  margin: 0;
+  overflow-y: auto;
+  touch-action: manipulation; /* ダブルタップズーム無効 */
+  -webkit-overflow-scrolling: touch;
+  color: #776e65;
+}
+
+/* ヘッダー（タイトル＋設定ボタン） */
+.app-header {
+  position: relative;
+  width: min(720px, 94vw);
+  margin: 0 auto;
+  padding-top: 10px;
+}
+
+/* タイトル「2048」 */
+h1 {
+  font-size: 60px;
+  margin: 10px 0 18px;
+  color: #776e65;
+  text-align: center;
+}
+
+/* 設定ボタン（左上のハンバーガーメニュー） */
+.icon-btn {
+  position: absolute;
+  left: 0;
+  top: 18px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  font-size: 24px;
+  border-radius: 12px;
+}
+
+/* 各画面の共通ラッパー */
+.screen {
+  width: min(720px, 92vw);
+  margin: 0 auto 30px;
+  box-sizing: border-box;
+}
+
+/* ===== ホーム画面 ===== */
+.home-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin-top: 40px;
+}
+
+/* ホーム画面の大きいボタン（ゲーム開始・ランキングなど） */
+.home-btn {
+  width: min(320px, 88vw);
+  padding: 18px 20px;
+  font-size: 22px;
+  font-weight: bold;
+  border-radius: 14px;
+}
+
+/* ===== 設定パネル ===== */
+.panel,
+.settings-panel {
+  width: min(520px, 92vw);
+  margin: 10px auto 18px;
+  padding: 16px;
+  background: #eee4da;
+  border-radius: 14px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+body.playing #settingsToggleButton {
+  display: none !important;
+}
+
+/* 設定内のログイン・ニックネームボタン */
+#authPanel button,
+#nicknamePanel button {
+  min-width: 130px;
+  font-weight: bold;
+}
+
+/* ログイン状態の表示テキスト */
+#loginStatus {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #5f5147;
+}
+
+/* 設定内のヘルプテキスト */
+#loginHelp,
+#nicknameHelp {
+  width: 100%;
+  font-size: 14px;
+  color: #8f7a66;
+  margin-top: 8px;
+}
+
+/* ニックネーム入力エリア */
+#nicknamePanel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+#nicknamePanel label {
+  font-weight: bold;
+}
+
+/* ニックネーム入力フィールド */
+#nicknameInput {
+  width: 180px;
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #bbada0;
+  border-radius: 8px;
+  color: #776e65;
+  background: #fff;
+}
+
+/* ===== モード選択・ランキング画面 ===== */
+#modeSelectScreen,
+#rankingScreen {
+  padding: 18px;
+  background: #eee4da;
+  border-radius: 16px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* ===== My Scores画面（固定ヘッダー＋スクロールボディ構造） ===== */
+#statsScreen {
+  background: #eee4da;
+  border-radius: 16px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 120px);
+}
+
+/* My Scoresの固定ヘッダー（戻るボタン＋タイトル） */
+.stats-fixed-header {
+  padding: 18px 18px 10px;
+  flex-shrink: 0;
+  background: #eee4da;
+  border-bottom: 1px solid rgba(119,110,101,0.15);
+}
+
+.stats-fixed-header h2 {
+  margin: 0 0 0;
+  font-size: 28px;
+  text-align: center;
+}
+
+.stats-fixed-header .back-btn {
+  margin: 0 0 10px;
+}
+
+/* My Scoresのスクロール可能なコンテンツエリア */
+.stats-scroll-body {
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex: 1;
+  padding: 14px 18px 20px;
+  scrollbar-width: thin;
+  scrollbar-color: #bbada0 #eee4da;
+}
+
+/* スクロールバーのカスタムスタイル（WebKit） */
+.stats-scroll-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.stats-scroll-body::-webkit-scrollbar-track {
+  background: #eee4da;
+}
+
+.stats-scroll-body::-webkit-scrollbar-thumb {
+  background: #bbada0;
+  border-radius: 6px;
+}
+
+#modeSelectScreen h2,
+#rankingScreen h2 {
+  margin: 0 0 8px;
+  font-size: 28px;
+}
+
+/* モード選択の説明文 */
+.mode-description {
+  margin: 0 0 14px;
+  color: #8f7a66;
+  font-size: 15px;
+}
+
+/* 戻るボタン共通スタイル */
+.back-btn {
+  display: block;
+  margin: 0 0 14px;
+}
+
+/* ===== モード選択のカテゴリボックス・ランキングメニュー ===== */
+.category-box,
+.ranking-menu,
+.ranking-mode-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: min(360px, 90vw);
+  margin: 16px auto;
+}
+
+/* カテゴリの折りたたみトグルボタン（初級・中級・上級・特殊） */
+.category-toggle {
+  text-align: left;
+  font-weight: bold;
+  font-size: 18px;
+  background: #9f8b77;
+}
+
+/* カテゴリ内のモードリスト */
+.category-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* 各モードのボタン */
+.mode-btn {
+  width: 100%;
+  margin: 0;
+  padding: 12px 14px;
+  font-size: 18px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+/* 選択中のモードボタン */
+.mode-btn.active {
+  background: #3c3a32;
+}
+
+/* モード名の大きいテキスト */
+.mode-title {
+  display: block;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* モードの説明テキスト */
+.mode-detail {
+  display: block;
+  margin-top: 6px;
+  font-size: 13px;
+  opacity: 0.85;
+  line-height: 1.4;
+}
+
+/* ===== ゲーム画面 ===== */
+
+/* スコアとモード表示 */
+#score,
+#difficulty {
+  font-size: 22px;
+  margin-bottom: 10px;
+  color: #776e65;
+}
+
+/* ステータスバー（ログイン状態・タイマーなど） */
+#status {
+  display: inline-block;
+  margin-top: 10px;
+  margin-bottom: 14px;
+  padding: 10px 18px;
+  min-width: 170px;
+  max-width: 90vw;
+  text-align: center;
+
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.35;
+
+  color: #5f5147;
+  background: #eee4da;
+  border: 2px solid #d4c5b5;
+  border-radius: 14px;
+
+  box-shadow: 0 2px 6px rgba(0,0,0,.08);
+  box-sizing: border-box;
+}
+
+/* ゲーム盤面 */
+#board {
+  background: #bbada0;
+  margin: 12px auto 18px;
+  display: grid;
+  gap: 6px;
+  padding: 6px;
+  border-radius: 10px;
+  touch-action: manipulation;
+  box-sizing: content-box;
+}
+
+/* 各マス */
+.cell {
+  background: #cdc1b4;
+  border-radius: 8px;
+  font-weight: bold;
+  color: #776e65;
+  transition: 0.15s;
+  text-align: center;
+}
+
+/* Mazeモードの壁マス */
+.blocked-cell {
+  background: #8f8a83 !important;
+  color: #f9f6f2 !important;
+  font-weight: bold;
+  opacity: 0.9;
+}
+
+/* 新しく追加されたマスのポップアニメーション */
+.new {
+  animation: pop 0.25s ease;
+}
+
+/* 合体したマスのアニメーション */
+.merged {
+  animation: merge 0.25s ease;
+}
+
+@keyframes pop {
+  0% { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes merge {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+
+/* ===== 共通ボタンスタイル ===== */
+button {
+  margin: 5px;
+  padding: 10px 18px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  background: #8f7a66;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #776e65;
+}
+
+/* サブカラーのボタン（戻るボタンなど） */
+.secondary {
+  background: #a39489;
+}
+
+/* ランキングヘッダー（タイトルを中央揃え） */
+.ranking-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ===== ランキングボックス ===== */
+/* モード選択画面内とランキング画面のランキング表示エリア */
+#rankingBox,
+#standaloneRankingBox {
+  width: min(420px, 92vw);
+  max-width: 100%;
+  min-height: 260px;
+  max-height: 260px;
+  margin: 20px auto;
+  padding: 16px 20px;
+  box-sizing: border-box;
+  background: #eee4da;
+  color: #776e65;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  border-radius: 16px;
+  border: 1px solid rgba(119, 110, 101, 0.12);
+}
+
+/* ランキングタイトル */
+#rankingBox h2,
+#standaloneRankingBox h2,
+#rankingTitle,
+#standaloneRankingTitle {
+  margin: 0 0 10px;
+  font-size: 16px;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+/* ランキングリスト */
+#rankingList,
+#standaloneRankingList {
+  text-align: left;
+  padding-left: 28px;
+  margin: 0;
+}
+
+/* ランキングの各項目 */
+#rankingList li,
+#standaloneRankingList li {
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(119, 110, 101, 0.18);
+  overflow-wrap: break-word;
+}
+
+/* ランキングの補足テキスト（日時など） */
+#rankingList span,
+#standaloneRankingList span {
+  font-size: 13px;
+  opacity: 0.75;
+}
+
+/* ===== ゲーム画面下部のアクションボタン ===== */
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+/* 非表示クラス（display:none を強制） */
+.hidden {
+  display: none !important;
+}
+
+/* ===== TimeAttack・Survivalのスタートオーバーレイ ===== */
+#timeAttackOverlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  min-height: 100dvh;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  z-index: 99999;
+}
+
+/* スタート・バックボタン */
+#timeAttackStartBtn,
+#timeAttackBackBtn {
+  width: 170px;
+  height: 78px;
+  font-size: 26px;
+  font-weight: bold;
+  border-radius: 14px;
+}
+
+#timeAttackStartBtn {
+  background: #f59563;
+}
+
+#timeAttackBackBtn {
+  background: #777;
+}
+
+/* ===== タブレット向けレスポンシブ（768px〜1200px） ===== */
+@media (min-width: 768px) and (max-width: 1200px) {
+  h1 {
+    font-size: 70px;
+    margin: 18px;
+  }
+
+  #score,
+  #difficulty {
+    font-size: 30px;
+  }
+
+  #status {
+    font-size: 15px;
+    padding: 8px 12px;
+    min-width: 140px;
+    margin-bottom: 12px;
+    white-space: nowrap;
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .actions {
+    gap: 16px;
+    margin-top: 22px;
+    margin-bottom: 30px;
+  }
+
+  .actions button {
+    font-size: 22px;
+    padding: 16px 28px;
+    min-width: 180px;
+  }
+
+  #gameScreen {
+    width: min(720px, 94vw);
+    margin: 0 auto;
+    padding: 12px 12px 20px;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+}
+
+/* ===== 設定モーダル ===== */
+.settings-window {
+  overflow: visible;
+}
+
+.settings-panel {
+  box-shadow: none;
+  margin: 0;
+  width: 100%;
+}
+
+.settings-panel h2 {
+  margin: 0 0 14px;
+  font-size: 24px;
+}
+
+/* 設定メニューのボタン一覧 */
+.settings-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: min(280px, 90%);
+  margin: 0 auto 12px;
+}
+
+.settings-menu button {
+  width: 100%;
+  font-weight: bold;
+}
+
+/* アカウント情報エリア（設定内） */
+#accountPanel {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(119, 110, 101, 0.25);
+}
+
+/* ===== モーダル共通 ===== */
+/* 背景オーバーレイ */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+/* モーダルのコンテンツボックス */
+.modal-content {
+  position: relative;
+  width: min(430px, 92vw);
+  max-height: 82vh;
+  overflow-y: auto;
+  background: #eee4da;
+  color: #776e65;
+  border: 3px solid #bbada0;
+  border-radius: 16px;
+  padding: 20px;
+  box-sizing: border-box;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+}
+
+/* モーダルの閉じるボタン（×） */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: auto;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  font-size: 22px;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+/* ===== アップデート履歴モーダル ===== */
+.update-history-window {
+  width: min(430px, 92vw);
+  height: min(560px, 78vh);
+  display: flex;
+  flex-direction: column;
+}
+
+.update-history-window h2 {
+  margin: 0 0 14px;
+  font-size: 22px;
+  text-align: center;
+}
+
+/* スクロール可能な履歴リスト */
+.update-history-list {
+  overflow-y: auto;
+  overflow-x: hidden;
+  text-align: left;
+  padding-right: 4px;
+}
+
+/* 各バージョンのブロック */
+.update-block {
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(119, 110, 101, 0.25);
+}
+
+.update-block h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+
+.update-block ul {
+  margin: 0;
+  padding-left: 22px;
+}
+
+.update-block li {
+  margin: 4px 0;
+  line-height: 1.45;
+}
+
+/* モーダル表示中のbodyスクロール禁止 */
+body.modal-open {
+  overflow: hidden;
+  touch-action: none;
+}
+
+/* ===== ランキングモーダル（モード別・総合） ===== */
+.ranking-modal-window {
+  width: min(360px, 88vw);
+  height: 420px;
+  max-height: 70vh;
+  padding: 18px 16px;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+
+  background: #eee4da;
+  color: #776e65;
+  border: 3px solid #bbada0;
+  border-radius: 16px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+  box-sizing: border-box;
+}
+
+.ranking-modal-window h2 {
+  margin: 0 0 14px;
+  font-size: 20px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.ranking-modal-window ol {
+  margin: 0;
+  padding-left: 28px;
+  text-align: left;
+  overflow: visible;
+}
+
+.ranking-modal-window li {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(119, 110, 101, 0.25);
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+/* ランキング画面のカテゴリトグル（モード別選択） */
+.ranking-category-toggle {
+  width: 100%;
+  text-align: left;
+  font-weight: bold;
+  font-size: 18px;
+  background: #9f8b77;
+}
+
+.ranking-category-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* モーダル表示中のbodyスクロール禁止（重複定義だが念のため） */
+body.modal-open {
+  overflow: hidden;
+  touch-action: none;
+}
+
+/* ===== タッチ操作設定 ===== */
+/* スクロール・スワイプの基本動作を許可しつつダブルタップズームを防止 */
+html,
+body {
+  touch-action: manipulation;
+}
+
+/* ボタンと盤面はシングルタップのみ受け付ける */
+button,
+#board,
+.cell {
+  touch-action: manipulation;
+}
+
+/* ===== スマホ向けレスポンシブ（500px以下） ===== */
+@media (max-width: 500px) {
+  h1 {
+    font-size: 46px;
+    margin: 6px 0 10px;
+  }
+
+  .screen {
+    width: 92vw;
+  }
+
+  #modeSelectScreen,
+  #rankingScreen {
+    width: 92%;
+    margin: 0 auto;
+    padding: 14px 10px;
+    box-sizing: border-box;
+  }
+
+  #statsScreen {
+    width: 92%;
+    margin: 0 auto;
+    max-height: calc(100vh - 100px);
+  }
+
+  .stats-fixed-header {
+    padding: 12px 10px 8px;
+  }
+
+  .stats-fixed-header h2 {
+    font-size: 22px;
+  }
+
+  .stats-scroll-body {
+    padding: 10px 10px 16px;
+  }
+
+  .category-box,
+  .ranking-menu,
+  .ranking-mode-menu {
+    width: 96%;
+    margin: 14px auto;
+  }
+
+  #rankingBox,
+  #standaloneRankingBox {
+    width: min(340px, 88vw);
+    padding: 12px;
+  }
+
+  #rankingBox h2,
+  #standaloneRankingBox h2,
+  #rankingTitle,
+  #standaloneRankingTitle {
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  .category-toggle,
+  .ranking-category-toggle,
+  #showModeRankingMenuButton,
+  #showOverallRankingButton {
+    width: 96%;
+    margin: 8px auto;
+    display: block;
+    box-sizing: border-box;
+  }
+
+  button {
+    font-size: 15px;
+  }
+
+  .mode-title {
+    font-size: 18px;
+  }
+
+  .mode-detail {
+    font-size: 12px;
+  }
+
+  #timeAttackStartBtn,
+  #timeAttackBackBtn {
+    width: 140px;
+    height: 66px;
+    font-size: 22px;
+  }
+
+  .ranking-modal-window {
+    width: 88vw;
+    height: 340px;
+    padding: 14px 12px;
+  }
+
+  .ranking-modal-window h2 {
+    font-size: 17px;
+  }
+
+  .ranking-modal-window li {
+    font-size: 14px;
+  }
+
+  /* ===== プレイ画面（スマホ） ===== */
+
+  #gameScreen {
+    width: 92vw;
+    margin: 0 auto;
+    padding: 0;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #difficulty,
+  #score {
+    font-size: 24px;
+    margin: 2px 0;
+  }
+
+  #status {
+    width: 92%;
+    max-width: 360px !important;
+    min-height: 48px;
+
+    margin: 6px auto 10px !important;
+    padding: 6px 10px;
+
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 16px !important;
+    font-weight: 900;
+    letter-spacing: 0.2px;
+
+    text-align: center !important;
+    white-space: nowrap;
+    box-sizing: border-box;
+  }
+
+#board {
+  background: #bbada0;
+  margin: 10px auto 12px !important;
+  display: grid;
+  gap: 6px;
+  padding: 6px;
+  border-radius: 10px;
+  touch-action: manipulation;
+  box-sizing: content-box;
+  transform: none;
+}
+
+  .actions {
+    margin-top: 6px !important;
+    gap: 10px;
+  }
+
+  .actions button {
+    padding: 10px 16px;
+    font-size: 15px;
+  }
+
+  /* ===== スマホ統計画面 ===== */
+  .stats-row {
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .stats-row-values {
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .stats-date {
+    font-size: 11px;
+    min-width: unset !important;
+  }
+
+  /* ページネーションボタンを大きく（タップしやすく） */
+  .history-pagination {
+    gap: 20px;
+    margin-top: 16px;
+  }
+
+  .history-pagination button {
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+  }
+
+  .history-page-info {
+    font-size: 16px;
+  }
+
+  .stats-history-title {
+    margin: 36px 0 12px;
+    padding-top: 14px;
+  }
+}
+
+/* ===== 統計画面（My Scores）のコンテンツスタイル ===== */
+
+/* カテゴリラベル（初級・中級など） */
+.stats-category-label {
+  font-weight: bold;
+  font-size: 15px;
+  color: #9f8b77;
+  margin: 16px 0 10px;   /* 上下広げる */
+  border-bottom: 1px solid rgba(119,110,101,0.2);
+  padding-bottom: 6px;   /* 線との距離少し増やす */
+}
+
+/* 各モードの成績行 */
+.stats-category-label {
+  font-weight: bold;
+  font-size: 15px;
+  color: #9f8b77;
+  margin: 14px 0 8px;
+  border-bottom: 1px solid rgba(119,110,101,0.2);
+  padding-bottom: 5px;
+}
+
+.stats-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 10px;
+  background: #f5efe8;
+  border-radius: 8px;
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+
+/* スコア・プレイ回数（右側） */
+.stats-row-values {
+  display: flex;
+  gap: 18px;
+  color: #776e65;
+  font-size: 14px;
+  text-align: right;
+}
+
+.stats-row-values span {
+  min-width: 80px;
+}
+
+/* データなし時のメッセージ */
+.stats-empty {
+  text-align: center;
+  color: #9f8b77;
+  padding: 20px 0;
+  font-size: 15px;
+}
+
+@media (max-width: 500px) {
+  .stats-category-label {
+    margin: 18px 0 12px;
+    padding-bottom: 7px;
+  }
+
+  .stats-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 10px 12px;
+    margin-bottom: 10px;
+  }
+
+  .stats-row-values {
+    gap: 12px;
+    font-size: 13px;
+  }
+}
+
+/* プレイ履歴セクションのタイトル */
+.stats-history-title {
+  margin: 40px 0 14px;
+  font-size: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(119,110,101,0.2);
+}
+
+/* 履歴の日時表示 */
+.stats-date {
+  font-size: 12px;
+  opacity: 0.7;
+  min-width: 120px !important;
+}
+
+/* ===== 履歴ページネーション ===== */
+.history-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(119,110,101,0.2);
+}
+
+/* 前ページ・次ページボタン */
+.history-pagination button {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  font-size: 18px;
+  border-radius: 8px;
+  margin: 0;
+}
+
+/* 無効状態のボタン */
+.history-pagination button:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+/* ページ番号表示（例：1 / 3） */
+.history-page-info {
+  font-size: 15px;
+  color: #776e65;
+  min-width: 60px;
+  text-align: center;
+}
+
+/* ===== リザルト画面（ゲームオーバー・タイムアップ） ===== */
+/* ===== リザルト画面 ===== */
+
+.result-window {
+  width: min(480px, 88vw);
+  text-align: center;
+  padding: 24px 20px 20px;
+  background: #eee4da;
+  border: 4px solid #bbada0;
+  border-radius: 20px;
+}
+
+#resultTitle {
+  font-size: 30px;
+  font-weight: bold;
+  color: #5f5147;
+  margin: 12px 0 18px;
+}
+
+#resultBody {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.result-stats {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.result-stat-item {
+  flex: 1;
+  min-width: 90px;
+
+  background: #f5efe8;
+  border: 2px solid #d4c5b5;
+  border-radius: 14px;
+
+  padding: 12px 8px;
+}
+
+.result-stat-label {
+  font-size: 14px;
+  color: #9f8b77;
+  margin-bottom: 8px;
+}
+
+.result-stat-value {
+  font-size: 24px;
+  font-weight: bold;
+  color: #5f5147;
+}
+
+.result-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+#playAgainButton,
+#resultModeButton {
+  min-width: 130px;
+
+  padding: 12px 18px;
+
+  font-size: 18px;
+  font-weight: bold;
+
+  border-radius: 12px;
+}
+
+#playAgainButton {
+  background: #f59563;
+}
+
+#resultModeButton {
+  background: #8f7a66;
+  color: white;
+}
+
+@media (max-width: 500px) {
+  .result-window {
+    width: 90vw;
+    padding: 28px 24px 28px;
+    border-radius: 20px;
+  }
+
+  #resultTitle {
+    font-size: 34px;
+  }
+
+  .result-stats {
+    gap: 12px;
+    margin: 24px auto 32px;
+  }
+
+  .result-stat-item {
+    min-width: 0;
+    padding: 14px 8px;
+    min-height: 76px;
+  }
+
+  .result-stat-label {
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+
+  .result-stat-value {
+    font-size: 24px;
+  }
+
+  #playAgainButton,
+  #resultModeButton {
+    min-width: 130px;
+    font-size: 20px;
+    padding: 16px 20px;
+  }
+}
+
+/* ===== フレンド比較モーダル ===== */
+/* ウィンドウ全体（固定ヘッダー＋スクロールリスト構造） */
+.friend-compare-window {
+  width: min(420px, 92vw);
+  max-height: 80vh;
+  overflow: hidden;
+  padding: 0;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+}
+
+/* タイトル・検索欄・VSヘッダーを固定する上部エリア */
+.friend-compare-fixed {
+  padding: 24px 20px 0;
+  flex-shrink: 0;
+}
+
+.friend-compare-window h2 {
+  text-align: center;
+  margin: 0 0 16px;
+  font-size: 22px;
+  padding-top: 28px; /* ×ボタンと重ならないように */
+}
+
+/* ニックネーム入力＋検索ボタンの行 */
+.friend-search-row {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.friend-search-row input {
+  width: 200px;
+  padding: 10px 12px;
+  font-size: 16px; /* 16px未満だとiOSで自動ズームが発生するため */
+  border: 2px solid #bbada0;
+  border-radius: 8px;
+  color: #776e65;
+  background: #fff;
+}
+
+.friend-search-row button {
+  margin: 0;
+  padding: 10px 16px;
+  font-size: 15px;
+}
+
+/* 自分 VS フレンドのヘッダー行 */
+.friend-compare-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 4px;
+  margin-bottom: 0;
+  border-bottom: 2px solid rgba(119,110,101,0.2);
+}
+
+/* スコア比較リストのスクロールエリア */
+#friendCompareResult {
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 8px 20px 16px;
+  flex: 1;
+  scrollbar-width: thin;
+  scrollbar-color: #bbada0 #eee4da;
+}
+
+#friendCompareResult::-webkit-scrollbar {
+  width: 6px;
+}
+
+#friendCompareResult::-webkit-scrollbar-track {
+  background: #eee4da;
+  border-radius: 0 16px 16px 0;
+}
+
+#friendCompareResult::-webkit-scrollbar-thumb {
+  background: #bbada0;
+  border-radius: 6px;
+}
+
+/* プレイヤー名（自分・フレンド） */
+.friend-compare-name {
+  font-weight: bold;
+  font-size: 15px;
+  color: #5f5147;
+  min-width: 80px;
+}
+
+.friend-compare-name:last-child {
+  text-align: right;
+}
+
+/* VSテキスト */
+.friend-compare-vs {
+  font-size: 13px;
+  color: #9f8b77;
+  font-weight: bold;
+}
+
+/* 各モードのスコア比較行 */
+.friend-compare-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 4px;
+  background: #f5efe8;
+  border-radius: 8px;
+  margin-bottom: 6px;
+}
+
+/* モード名（中央） */
+.friend-compare-mode {
+  font-size: 13px;
+  color: #9f8b77;
+  text-align: center;
+  flex: 1;
+}
+
+/* スコア（左：自分・右：フレンド） */
+.friend-score {
+  font-size: 15px;
+  font-weight: bold;
+  color: #776e65;
+  min-width: 80px;
+}
+
+.friend-score:last-child {
+  text-align: right;
+}
+
+/* 勝っているスコアをオレンジで強調 */
+.friend-score-win {
+  color: #f59563;
+}
+
+/* 検索結果なし・エラー時のメッセージ */
+.friend-empty {
+  text-align: center;
+  color: #9f8b77;
+  padding: 16px 0;
+  font-size: 15px;
+}
+
+@media (max-width: 500px) {
+  .friend-compare-window {
+    width: 92vw;
+    max-height: 75vh;
+  }
+
+  .friend-compare-fixed {
+    padding: 16px 14px 0;
+  }
+
+  .friend-compare-window h2 {
+    font-size: 18px;
+    padding-top: 24px;
+  }
+
+  .friend-search-row input {
+    width: 140px;
+    font-size: 16px;
+  }
+
+  .friend-search-row button {
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+
+  .friend-score {
+    font-size: 13px;
+    min-width: 64px;
+  }
+
+  .friend-compare-name {
+    font-size: 13px;
+    min-width: 64px;
+  }
+}
+
+/* ===== ベストスコア表示（ゲーム画面） ===== */
+#bestScore {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #776e65;
+  transition: color 0.3s; /* 新記録時にオレンジへ滑らかに変化 */
+}
+
+@media (min-width: 768px) and (max-width: 1200px) {
+  #bestScore {
+    font-size: 26px;
+  }
+}
+
+@media (max-width: 500px) {
+  #bestScore {
+    font-size: 20px;
+    margin: 2px 0;
+  }
+}
+
+/* ===== アチーブメントモーダル ===== */
+/* ウィンドウ全体（固定ヘッダー＋スクロールボディ構造） */
+.achievements-window {
+  width: min(480px, 92vw);
+  max-height: 82vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+/* タイトルを固定する上部エリア */
+.achievements-fixed-header {
+  padding: 20px 20px 12px;
+  flex-shrink: 0;
+  background: #eee4da;
+  border-bottom: 1px solid rgba(119,110,101,0.15);
+}
+
+.achievements-fixed-header h2 {
+  text-align: center;
+  margin: 0;
+  font-size: 22px;
+  padding-top: 28px; /* ×ボタンと重ならないように */
+}
+
+/* アチーブメント一覧のスクロールエリア */
+.achievements-scroll-body {
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex: 1;
+  padding: 12px 16px 20px;
+  scrollbar-width: thin;
+  scrollbar-color: #bbada0 #eee4da;
+}
+
+.achievements-scroll-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.achievements-scroll-body::-webkit-scrollbar-track {
+  background: #eee4da;
+}
+
+.achievements-scroll-body::-webkit-scrollbar-thumb {
+  background: #bbada0;
+  border-radius: 6px;
+}
+
+/* カテゴリごとのブロック */
+.achievement-category-block {
+  margin-bottom: 6px;
+}
+
+/* カテゴリ折りたたみトグルボタン */
+.achievement-category-toggle {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #c8b8a8;
+  color: #5f5147;
+  font-weight: bold;
+  font-size: 15px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  margin: 0;
+  text-align: left;
+  cursor: pointer;
+  touch-action: manipulation; /* タップズーム防止 */
+  -webkit-tap-highlight-color: transparent;
+}
+
+.achievement-category-toggle:hover {
+  background: #bbada0;
+}
+
+/* カテゴリ内のアチーブ一覧 */
+.achievement-category-content {
+  padding-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* 達成数カウンター（例：2/5） */
+.achievement-count {
+  font-size: 13px;
+  color: #5f5147;
+  opacity: 0.8;
+}
+
+/* 各アチーブメント行 */
+.achievement-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 12px;
+  margin-bottom: 2px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* 未解放のアチーブ（薄く表示） */
+.achievement-row.locked {
+  background: #ede8e3;
+  border: 2px solid #d0c4b7;
+  opacity: 0.75;
+}
+
+.achievement-row.unlocked {
+  border: 2px solid #f59563;
+  background: #f5efe8;
+}
+
+/* アチーブメントのアイコン */
+.achievement-icon {
+  font-size: 22px;
+  min-width: 28px;
+  text-align: center;
+  margin-top: 2px;
+}
+
+/* アチーブメントのテキスト部分 */
+.achievement-info {
+  flex: 1;
+}
+
+/* アチーブメント名 */
+.achievement-label {
+  font-weight: bold;
+  font-size: 15px;
+  color: #5f5147;
+}
+
+/* アチーブメントの説明 */
+.achievement-desc {
+  font-size: 12px;
+  color: #9f8b77;
+  margin-top: 2px;
+}
+
+/* 進捗バーの背景 */
+.achievement-progress-bar {
+  height: 6px;
+  background: #d4c5b5;
+  border-radius: 4px;
+  margin-top: 6px;
+  overflow: hidden;
+}
+
+/* 進捗バーの塗りつぶし部分 */
+.achievement-progress-fill {
+  height: 100%;
+  background: #f59563;
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+
+/* 進捗テキスト（例：500 / 1,000） */
+.achievement-progress-text {
+  font-size: 11px;
+  color: #9f8b77;
+  margin-top: 3px;
+}
+
+/* 解放済みのチェックマーク */
+.achievement-check {
+  color: #f59563;
+  font-size: 18px;
+  font-weight: bold;
+  margin-left: 4px;
+  align-self: center;
+}
+
+/* ===== アチーブメント解放通知（画面上部からスライドイン） ===== */
+.achievement-notification {
+  position: fixed;
+  background: #3c3a32;
+  color: #f9f6f2;
+  border-radius: 14px;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 99999;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  transition: transform 0.4s ease;
+}
+
+/* 通知のアイコン */
+.achievement-notif-icon {
+  font-size: 26px;
+}
+
+/* 「アチーブメント解放！」 */
+.achievement-notif-title {
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+/* アチーブ名 */
+.achievement-notif-label {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+/* ===== プレイ中だけ右上表示 ===== */
+/* PC：右上に少し大きく表示 */
+.achievement-notification.ingame {
+  top: 18px;
+  right: 18px;
+  left: auto;
+  transform: translateY(-120px);
+  min-width: 260px;
+  max-width: 340px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  gap: 12px;
+}
+
+.achievement-notification.ingame.achievement-notif-show {
+  transform: translateY(0);
+}
+
+.achievement-notification.ingame .achievement-notif-icon {
+  font-size: 28px;
+}
+
+.achievement-notification.ingame .achievement-notif-title {
+  font-size: 12px;
+}
+
+.achievement-notification.ingame .achievement-notif-label {
+  font-size: 16px;
+}
+
+@media (max-width: 500px) {
+  .achievement-notification.ingame {
+    top: 10px;
+    right: 10px;
+    max-width: 180px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    gap: 8px;
+  }
+
+  .achievement-notification.ingame .achievement-notif-icon {
+    font-size: 20px;
+  }
+
+  .achievement-notification.ingame .achievement-notif-title {
+    font-size: 10px;
+  }
+
+  .achievement-notification.ingame .achievement-notif-label {
+    font-size: 12px;
+  }
+}
+
+.stats-category-block {
+  margin-bottom: 22px;
+}
+
+.stats-category-label {
+  font-weight: bold;
+  font-size: 16px;
+  color: #5f5147;
+  margin: 18px 0 10px;
+  padding: 8px 12px;
+  background: #d8c8b8;
+  border-radius: 10px;
+  text-align: left;
+}
+
+.stats-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f5efe8;
+  border: 2px solid #d4c5b5;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 8px;
+}
+
+.stats-mode-name {
+  font-weight: bold;
+  color: #5f5147;
+  min-width: 86px;
+  text-align: left;
+}
+
+.stats-row-values {
+  display: flex;
+  gap: 12px;
+  text-align: center;
+}
+
+.stats-row-values span {
+  font-size: 12px;
+  color: #9f8b77;
+  min-width: 58px;
+}
+
+.stats-row-values b {
+  font-size: 16px;
+  color: #5f5147;
+}
+
+.stats-history-title {
+  margin: 28px 0 12px;
+  padding-top: 16px;
+  border-top: 2px dashed #d4c5b5;
+  color: #5f5147;
+}
+
+.history-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  background: #f5efe8;
+  border: 2px solid #d4c5b5;
+  border-radius: 12px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  text-align: left;
+}
+
+.history-row span {
+  margin-left: 8px;
+  color: #776e65;
+}
+
+.history-row small {
+  color: #9f8b77;
+  white-space: nowrap;
+}
+
+.ranking-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 10px 12px;
+
+  border-bottom: 1px solid #d4c5b5;
+}
+
+.ranking-row:last-child {
+  border-bottom: none;
+}
+
+/* ===== ゲーム画面 見やすく調整 ===== */
+
+#gameScreen {
+  padding-top: 4px;
+}
+
+#difficulty,
+#score,
+#bestScore,
+#status {
+  display: inline-block;
+  min-width: 130px;
+  margin: 4px 6px;
+  padding: 8px 12px;
+
+  background: #eee4da;
+  border: 2px solid #d4c5b5;
+  border-radius: 12px;
+
+  font-size: 18px;
+  font-weight: bold;
+  color: #5f5147;
+}
+
+/* ===== 「Moves」バッジ（中身は #status）を単独で下の段・中央へ ===== */
+#status {
+  flex-basis: 100% !important;   /* Flex内なら折り返して次の行へ */
+  display: block !important;     /* ブロックなら改行 */
+  width: fit-content !important; /* 中身の幅に合わせる */
+  min-width: 130px !important;
+  max-width: 220px !important;
+  margin: 10px auto 0 !important;/* 改行して中央 */
+  white-space: nowrap !important;/* 「Moves: 0」を1行に */
+}
