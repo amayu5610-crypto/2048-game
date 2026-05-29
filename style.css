@@ -378,57 +378,76 @@ button:hover {
   align-items: center;
 }
 
-/* ===== ランキングボックス ===== */
-/* モード選択画面内とランキング画面のランキング表示エリア */
-#rankingBox,
-#standaloneRankingBox {
+/* ===== ランキングボックス（モード選択画面・埋め込み版） ===== */
+.ranking-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(119, 110, 101, 0.15);
+}
+
+#rankingBox {
   width: min(420px, 92vw);
   max-width: 100%;
-  min-height: 260px;
-  max-height: 260px;
+  height: 260px;
   margin: 20px auto;
   padding: 16px 20px;
   box-sizing: border-box;
+
   background: #eee4da;
   color: #776e65;
-  overflow-x: hidden;
-  overflow-y: auto;
-  overflow-wrap: break-word;
-  word-break: break-word;
   border-radius: 16px;
   border: 1px solid rgba(119, 110, 101, 0.12);
+
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;          /* ← 外側は隠して角丸からはみ出させない */
 }
 
-/* ランキングタイトル */
 #rankingBox h2,
-#standaloneRankingBox h2,
 #rankingTitle,
 #standaloneRankingTitle {
-  margin: 0 0 10px;
+  margin: 0;
   font-size: 16px;
   white-space: nowrap;
   line-height: 1.2;
 }
 
-/* ランキングリスト */
-#rankingList,
-#standaloneRankingList {
-  text-align: left;
-  padding-left: 28px;
+#rankingList {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+
   margin: 0;
+  padding: 10px 8px 0 28px;
+  text-align: left;
+
+  scrollbar-width: thin;
+  scrollbar-color: #bbada0 #eee4da;
 }
 
-/* ランキングの各項目 */
-#rankingList li,
-#standaloneRankingList li {
+#rankingList::-webkit-scrollbar {
+  width: 6px;
+}
+#rankingList::-webkit-scrollbar-track {
+  background: #eee4da;
+}
+#rankingList::-webkit-scrollbar-thumb {
+  background: #bbada0;
+  border-radius: 6px;
+}
+
+#rankingList li {
   padding: 7px 0;
   border-bottom: 1px solid rgba(119, 110, 101, 0.18);
   overflow-wrap: break-word;
 }
 
-/* ランキングの補足テキスト（日時など） */
-#rankingList span,
-#standaloneRankingList span {
+#rankingList span {
   font-size: 13px;
   opacity: 0.75;
 }
@@ -1791,4 +1810,3 @@ button,
   margin: 10px auto 0 !important;/* 改行して中央 */
   white-space: nowrap !important;/* 「Moves: 0」を1行に */
 }
-
