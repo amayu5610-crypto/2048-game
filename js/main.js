@@ -21,6 +21,7 @@ import {
   renderBoard,
   renderGameInfo,
   showResult,
+  showStartOverlay,
   closeModal,
   escapeText,
   renderStats
@@ -35,6 +36,7 @@ import {
 } from "./ranking.js";
 import {
   checkAchievements,
+  checkAchievementsInGame,
   renderAchievements,
   showAchievementNotification,
   updateLocalStats,
@@ -195,6 +197,19 @@ function watchAuth() {
         await syncPendingScores(currentUser, playerData);
         console.log("syncPendingScores OK");
 
+        // ログイン時に Firebase のアチーブメントをローカルとマージ
+        try {
+          const progress = await loadPlayerProgress(currentUser);
+          if (progress?.achievements?.length) {
+            const local = JSON.parse(localStorage.getItem("achievements2048") || "[]");
+            const merged = [...new Set([...local, ...progress.achievements])];
+            localStorage.setItem("achievements2048", JSON.stringify(merged));
+            console.log("achievements synced:", merged.length, "件");
+          }
+        } catch (e) {
+          console.warn("アチーブメント同期失敗（続行）", e);
+        }
+
       } catch (e) {
         console.error("ログイン後処理エラー", e);
         showMessage("ユーザーデータの読み込みに失敗しました。");
@@ -308,6 +323,13 @@ async function openStats() {
         localStorage.setItem("history2048", JSON.stringify(progress.history));
       }
 
+      // Firebase のアチーブメントをローカルとマージ（どちらかで解除済みなら解除済み扱い）
+      if (progress?.achievements?.length) {
+        const local = JSON.parse(localStorage.getItem("achievements2048") || "[]");
+        const merged = [...new Set([...local, ...progress.achievements])];
+        localStorage.setItem("achievements2048", JSON.stringify(merged));
+      }
+
       // ランキング側 scores2048 の最高スコアを My Scores に反映
       for (const key of Object.keys(modes)) {
         const bestFromRanking = await loadBestScore(currentUser.uid, key);
@@ -356,7 +378,18 @@ async function startSelectedMode(modeKey = "normal") {
   document.body.classList.add("playing");
 
   render();
-  startTimerIfNeeded();
+
+  // タイムアタック・サバイバルは開始前にオーバーレイを出す
+  if (modeKey === "timeAttack" || modeKey === "survival") {
+    const modeLabel = modes[modeKey]?.label || modeKey;
+    showStartOverlay(
+      modeLabel,
+      () => startTimerIfNeeded(),   // Start → タイマー開始
+      () => openModeSelect()        // Back → モード選択に戻る
+    );
+  } else {
+    startTimerIfNeeded();
+  }
 }
 
 function render() {
@@ -381,6 +414,7 @@ function handleKey(e) {
 
 function doMove(direction) {
   if (!state || state.gameOver) return;
+  if (document.getElementById("startOverlay")) return; // オーバーレイ表示中は無効
   const moved = move(state, direction);
   if (!moved) return;
   state.best = Math.max(state.best || 0, state.score);
@@ -390,6 +424,11 @@ function doMove(direction) {
     state.won = true;
     showMessage("🎉 2048達成！続けてプレイできます。");
   }
+
+  // ゲーム中のその場アチーブ判定（スコア・タイル系のみ、保存はゲームオーバー時）
+  const ingameNewly = checkAchievementsInGame(state.modeKey, state.score, state.board);
+  ingameNewly.forEach(item => showAchievementNotification(item));
+
   if (state.gameOver) finishGame("ゲームオーバー");
 }
 
