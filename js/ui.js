@@ -232,8 +232,8 @@ export function renderGameInfo(state, best = 0, currentUser = null) {
         `⏱ タイマー: ${Math.max(0, state.timeLeft)}秒`;
     } else {
       status.textContent = currentUser
-        ? "☁️ オンライン保存済み"
-        : "⚠️ オンライン未保存";
+        ? "✅ オンライン保存済み"
+        : "📵 未ログイン（ローカル保存のみ）";
     }
   }
 }

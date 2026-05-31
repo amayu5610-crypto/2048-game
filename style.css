@@ -1719,15 +1719,15 @@ button,
   color: #5f5147;
 }
 
-/* ===== 「Moves」バッジ（中身は #status）を単独で下の段・中央へ ===== */
-#status {
-  flex-basis: 100% !important;   /* Flex内なら折り返して次の行へ */
-  display: block !important;     /* ブロックなら改行 */
-  width: fit-content !important; /* 中身の幅に合わせる */
+/* ===== #status を単独で下の段・中央へ（ゲーム中のみ） ===== */
+body.playing #status {
+  flex-basis: 100% !important;
+  display: block !important;
+  width: fit-content !important;
   min-width: 130px !important;
   max-width: 220px !important;
-  margin: 10px auto 0 !important;/* 改行して中央 */
-  white-space: nowrap !important;/* 「Moves: 0」を1行に */
+  margin: 10px auto 0 !important;
+  white-space: nowrap !important;
 }
 
 /* ===== フレンド比較：カード型デザイン ===== */
@@ -1891,18 +1891,21 @@ button,
     font-size: 15px !important;
   }
 
-  /* オンライン状態は小さく1行で中央に */
+  /* オンライン状態バッジ */
   body.playing #status {
     display: block !important;
     width: fit-content !important;
     min-width: 0 !important;
     max-width: 92vw !important;
-    margin: 2px auto 0 !important;
-    padding: 0 !important;
+    margin: 4px auto 2px !important;
+    padding: 4px 14px !important;
     background: transparent !important;
     border: none !important;
-    font-size: 12px !important;
-    opacity: 0.7;
+    border-radius: 0 !important;
+    font-size: 13px !important;
+    font-weight: bold !important;
+    opacity: 1 !important;
+    color: #8f7a66 !important;
   }
 
   body.playing #board {
