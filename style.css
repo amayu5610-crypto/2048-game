@@ -766,6 +766,13 @@ button:hover {
   font-weight: bold;
 }
 
+/* スマホ：スクロールバー（iOSは重なり型）がカードに重ならないよう左右に余白を確保 */
+@media (max-width: 500px) {
+  #updateHistoryContent {
+    padding: 4px 12px 8px;
+  }
+}
+
 /* モーダル表示中のbodyスクロール禁止 */
 body.modal-open {
   overflow: hidden;
