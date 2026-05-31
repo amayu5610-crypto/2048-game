@@ -46,7 +46,7 @@ import { renderUpdateHistory, showUpdateHistoryModal } from "./updates.js";
 let currentUser = null;
 let playerData = null;
 let state = null;
-let selectedMode = "normal";
+let selectedMode = "null";
 let unsubscribeRanking = null;
 let timerId = null;
 let isSaving = false;

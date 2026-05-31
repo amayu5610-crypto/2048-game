@@ -172,9 +172,11 @@ body.playing #settingsToggleButton {
 .ranking-scroll-body,
 .ranking-modal-window,
 .ranking-modal-window ol,
+.update-history-list,
 #rankingList,
 #standaloneRankingList,
-#friendCompareResult {
+#friendCompareResult,
+#updateHistoryContent {
   scrollbar-width: thin;
   scrollbar-color: #bbada0 transparent;
 }
@@ -184,6 +186,8 @@ body.playing #settingsToggleButton {
 .ranking-scroll-body::-webkit-scrollbar,
 .ranking-modal-window::-webkit-scrollbar,
 .ranking-modal-window ol::-webkit-scrollbar,
+.update-history-list::-webkit-scrollbar,
+#updateHistoryContent::-webkit-scrollbar
 #rankingList::-webkit-scrollbar,
 #standaloneRankingList::-webkit-scrollbar,
 #friendCompareResult::-webkit-scrollbar {
@@ -195,6 +199,8 @@ body.playing #settingsToggleButton {
 .ranking-scroll-body::-webkit-scrollbar-track,
 .ranking-modal-window::-webkit-scrollbar-track,
 .ranking-modal-window ol::-webkit-scrollbar-track,
+.update-history-list::-webkit-scrollbar,
+#updateHistoryContent::-webkit-scrollbar
 #rankingList::-webkit-scrollbar-track,
 #standaloneRankingList::-webkit-scrollbar-track,
 #friendCompareResult::-webkit-scrollbar-track {
@@ -206,6 +212,8 @@ body.playing #settingsToggleButton {
 .ranking-scroll-body::-webkit-scrollbar-thumb,
 .ranking-modal-window::-webkit-scrollbar-thumb,
 .ranking-modal-window ol::-webkit-scrollbar-thumb,
+.update-history-list::-webkit-scrollbar,
+#updateHistoryContent::-webkit-scrollbar
 #rankingList::-webkit-scrollbar-thumb,
 #standaloneRankingList::-webkit-scrollbar-thumb,
 #friendCompareResult::-webkit-scrollbar-thumb {
@@ -220,6 +228,8 @@ body.playing #settingsToggleButton {
 .ranking-scroll-body::-webkit-scrollbar-thumb:hover,
 .ranking-modal-window::-webkit-scrollbar-thumb:hover,
 .ranking-modal-window ol::-webkit-scrollbar-thumb:hover,
+.update-history-list::-webkit-scrollbar,
+#updateHistoryContent::-webkit-scrollbar
 #rankingList::-webkit-scrollbar-thumb:hover,
 #standaloneRankingList::-webkit-scrollbar-thumb:hover,
 #friendCompareResult::-webkit-scrollbar-thumb:hover {
@@ -655,46 +665,105 @@ button:hover {
 }
 
 /* ===== アップデート履歴モーダル ===== */
-.update-history-window {
-  width: min(430px, 92vw);
-  height: min(560px, 78vh);
+.update-history-window,
+.update-window {
+  width: min(440px, 93vw);
+  height: min(580px, 80vh);
   display: flex;
   flex-direction: column;
+  background: #faf8ef;
+  border: 3px solid #bbada0;
+  border-radius: 16px;
+  overflow: hidden;
 }
 
-.update-history-window h2 {
+.update-history-window h2,
+.update-window h2 {
   margin: 0 0 14px;
   font-size: 22px;
   text-align: center;
+  color: #3c3a32;
 }
 
 /* スクロール可能な履歴リスト */
-.update-history-list {
+#updateHistoryContent {
   overflow-y: auto;
   overflow-x: hidden;
   text-align: left;
-  padding-right: 4px;
+  padding: 4px 4px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-/* 各バージョンのブロック */
+/* 各バージョンのカード */
+.update-card,
 .update-block {
-  padding: 12px 0;
-  border-bottom: 1px solid rgba(119, 110, 101, 0.25);
+  background: #fff8f0;
+  border: 2px solid #d4c5b5;
+  border-radius: 12px;
+  padding: 12px 14px;
 }
 
+/* バージョンバッジ */
+.update-card h3,
 .update-block h3 {
-  margin: 0 0 8px;
-  font-size: 18px;
+  display: inline-block;
+  margin: 0 0 10px;
+  padding: 3px 10px;
+  background: #8f7a66;
+  color: #fff;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 0.04em;
 }
 
+/* 最新バージョンは強調 */
+.update-card:first-child,
+.update-block:first-child {
+  border-color: #f59563;
+  background: #fffaf5;
+}
+
+.update-card:first-child h3,
+.update-block:first-child h3 {
+  background: #f59563;
+}
+
+.update-card:first-child h3::after,
+.update-block:first-child h3::after {
+  content: " NEW";
+  font-size: 11px;
+  opacity: 0.85;
+}
+
+.update-card ul,
 .update-block ul {
   margin: 0;
-  padding-left: 22px;
+  padding-left: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
+.update-card li,
 .update-block li {
-  margin: 4px 0;
-  line-height: 1.45;
+  padding-left: 18px;
+  position: relative;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #5f5147;
+}
+
+.update-card li::before,
+.update-block li::before {
+  content: "•";
+  position: absolute;
+  left: 5px;
+  color: #bbada0;
+  font-weight: bold;
 }
 
 /* モーダル表示中のbodyスクロール禁止 */
