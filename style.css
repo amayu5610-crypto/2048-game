@@ -187,7 +187,7 @@ body.playing #settingsToggleButton {
 .ranking-modal-window::-webkit-scrollbar,
 .ranking-modal-window ol::-webkit-scrollbar,
 .update-history-list::-webkit-scrollbar,
-#updateHistoryContent::-webkit-scrollbar
+#updateHistoryContent::-webkit-scrollbar,
 #rankingList::-webkit-scrollbar,
 #standaloneRankingList::-webkit-scrollbar,
 #friendCompareResult::-webkit-scrollbar {
@@ -199,8 +199,8 @@ body.playing #settingsToggleButton {
 .ranking-scroll-body::-webkit-scrollbar-track,
 .ranking-modal-window::-webkit-scrollbar-track,
 .ranking-modal-window ol::-webkit-scrollbar-track,
-.update-history-list::-webkit-scrollbar,
-#updateHistoryContent::-webkit-scrollbar
+.update-history-list::-webkit-scrollbar-track,
+#updateHistoryContent::-webkit-scrollbar-track,
 #rankingList::-webkit-scrollbar-track,
 #standaloneRankingList::-webkit-scrollbar-track,
 #friendCompareResult::-webkit-scrollbar-track {
@@ -212,8 +212,8 @@ body.playing #settingsToggleButton {
 .ranking-scroll-body::-webkit-scrollbar-thumb,
 .ranking-modal-window::-webkit-scrollbar-thumb,
 .ranking-modal-window ol::-webkit-scrollbar-thumb,
-.update-history-list::-webkit-scrollbar,
-#updateHistoryContent::-webkit-scrollbar
+.update-history-list::-webkit-scrollbar-thumb,
+#updateHistoryContent::-webkit-scrollbar-thumb,
 #rankingList::-webkit-scrollbar-thumb,
 #standaloneRankingList::-webkit-scrollbar-thumb,
 #friendCompareResult::-webkit-scrollbar-thumb {
@@ -228,8 +228,8 @@ body.playing #settingsToggleButton {
 .ranking-scroll-body::-webkit-scrollbar-thumb:hover,
 .ranking-modal-window::-webkit-scrollbar-thumb:hover,
 .ranking-modal-window ol::-webkit-scrollbar-thumb:hover,
-.update-history-list::-webkit-scrollbar,
-#updateHistoryContent::-webkit-scrollbar
+.update-history-list::-webkit-scrollbar-thumb:hover,
+#updateHistoryContent::-webkit-scrollbar-thumb:hover,
 #rankingList::-webkit-scrollbar-thumb:hover,
 #standaloneRankingList::-webkit-scrollbar-thumb:hover,
 #friendCompareResult::-webkit-scrollbar-thumb:hover {

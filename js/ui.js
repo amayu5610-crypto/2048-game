@@ -44,7 +44,7 @@ function ensureToast() {
   const el = document.createElement("div");
   el.id = "toast";
   el.className = "toast hidden";
-  el.style.cssText = "position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999;background:#3c3a32;color:#fff;padding:14px 20px;border-radius:12px;box-shadow:0 6px 22px rgba(0,0,0,.3);font-weight:bold;max-width:80vw;text-align:center;";
+  el.style.cssText = "position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999;background:#3c3a32;color:#fff;padding:12px 18px;border-radius:12px;box-shadow:0 6px 22px rgba(0,0,0,.3);font-weight:bold;font-size:15px;line-height:1.4;white-space:nowrap;max-width:94vw;text-align:center;";
   document.body.appendChild(el);
   return el;
 }
@@ -232,8 +232,8 @@ export function renderGameInfo(state, best = 0, currentUser = null) {
         `⏱ タイマー: ${Math.max(0, state.timeLeft)}秒`;
     } else {
       status.textContent = currentUser
-        ? "✅ オンライン保存済み"
-        : "📵 未ログイン（ローカル保存のみ）";
+        ? "☁️ オンライン保存済み"
+        : "⚠️ オンライン未保存";
     }
   }
 }
@@ -285,60 +285,40 @@ export function closeModal(id) {
   document.body.classList.remove("modal-open");
 }
 
-/**
- * タイムアタック・サバイバル開始前のオーバーレイ
- * Start を押したら onStart()、Back を押したら onBack() を呼ぶ
- * Promise を返すので await で Start 押し待ちができる
- */
+// タイムアタック・サバイバル用の開始前オーバーレイ。
+// スタートで onStart()（タイマー開始）、戻るで onBack()（モード選択）を呼ぶ。
+// この要素(id="startOverlay")が存在する間は doMove 側で操作がブロックされる。
 export function showStartOverlay(modeLabel, onStart, onBack) {
-  // 既存のオーバーレイを除去
   document.getElementById("startOverlay")?.remove();
 
   const overlay = document.createElement("div");
   overlay.id = "startOverlay";
-  overlay.style.cssText = [
-    "position:fixed", "inset:0", "z-index:2000",
-    "display:flex", "flex-direction:column",
-    "align-items:center", "justify-content:center",
-    "background:rgba(0,0,0,0.55)", "gap:20px"
-  ].join(";");
+  overlay.style.cssText =
+    "position:fixed;inset:0;z-index:9998;display:flex;align-items:center;justify-content:center;" +
+    "background:rgba(60,58,50,.55);";
 
   overlay.innerHTML = `
-    <div style="
-      background:#faf8ef; border-radius:18px;
-      padding:32px 36px; text-align:center;
-      box-shadow:0 8px 32px rgba(0,0,0,0.28);
-      min-width:220px;
-    ">
-      <div style="font-size:1.1rem;color:#776e65;margin-bottom:6px;">モード</div>
-      <div style="font-size:1.6rem;font-weight:bold;color:#3c3a32;margin-bottom:24px;">
-        ${escapeText(modeLabel)}
-      </div>
-      <button id="startOverlayStart" style="
-        display:block; width:100%; margin-bottom:12px;
-        padding:14px 0; font-size:1.15rem; font-weight:bold;
-        background:#8f7a66; color:#fff; border:none;
-        border-radius:10px; cursor:pointer;
-      ">▶ Start</button>
-      <button id="startOverlayBack" style="
-        display:block; width:100%;
-        padding:10px 0; font-size:1rem;
-        background:#bbada0; color:#fff; border:none;
-        border-radius:10px; cursor:pointer;
-      ">← Back</button>
+    <div style="background:#faf8f0;border-radius:16px;padding:24px 22px;width:300px;max-width:88vw;
+                text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.25);">
+      <div style="font-size:14px;color:#9f8b77;font-weight:bold;margin-bottom:6px;">これからプレイ</div>
+      <div style="font-size:24px;font-weight:bold;color:#5f5147;margin-bottom:8px;">${escapeText(modeLabel)}</div>
+      <div style="font-size:13px;color:#9f8b77;margin-bottom:18px;">スタートを押すと時間制限が始まります。</div>
+      <button id="startOverlayStart" style="display:block;width:100%;padding:12px;margin:0 0 10px;border:none;
+              border-radius:12px;background:#8f7a66;color:#fff;font-size:16px;font-weight:bold;cursor:pointer;">スタート</button>
+      <button id="startOverlayBack" style="display:block;width:100%;padding:10px;border:none;border-radius:12px;
+              background:#d8cec2;color:#5f5147;font-size:14px;cursor:pointer;">モード選択に戻る</button>
     </div>
   `;
 
   document.body.appendChild(overlay);
 
-  document.getElementById("startOverlayStart").addEventListener("click", () => {
+  overlay.querySelector("#startOverlayStart")?.addEventListener("click", () => {
     overlay.remove();
-    onStart();
+    onStart?.();
   });
-
-  document.getElementById("startOverlayBack").addEventListener("click", () => {
+  overlay.querySelector("#startOverlayBack")?.addEventListener("click", () => {
     overlay.remove();
-    onBack();
+    onBack?.();
   });
 }
 
