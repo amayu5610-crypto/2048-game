@@ -1382,6 +1382,53 @@ export function updateLocalStats(state) {
   return stats;
 }
 
+/**
+ * ゲーム中のその場判定：スコア・タイル系のみ
+ * stats は保存しない。解除済みリスト（achievements2048）だけ更新する。
+ * プレイ回数・モード制覇系はゲームオーバー時の checkAchievements に任せる。
+ */
+export function checkAchievementsInGame(modeKey, score, board) {
+  const unlocked = JSON.parse(localStorage.getItem("achievements2048") || "[]");
+  const unlockedSet = new Set(unlocked);
+
+  const maxTile = Math.max(0, ...board.flat());
+
+  // ゲーム中に変動する値だけを持つ最小限の stats スナップショット
+  // プレイ回数・モード制覇系は 0 のまま → それらのアチーブは check が false になり判定されない
+  const savedStats = JSON.parse(localStorage.getItem("stats2048") || "{}");
+  const snapshot = { ...savedStats };
+
+  // 今のゲームの現在値を上書き（bestScore / maxTile をリアルタイム反映）
+  if (!snapshot[modeKey]) snapshot[modeKey] = { bestScore: 0, playCount: 0, maxTile: 0, bestTime: null };
+  snapshot[modeKey] = {
+    ...snapshot[modeKey],
+    bestScore: Math.max(snapshot[modeKey].bestScore || 0, score),
+    maxTile:   Math.max(snapshot[modeKey].maxTile   || 0, maxTile),
+  };
+  // 全モードにまたがる集計値も更新
+  snapshot.__bestScore = getBestScoreAcrossAllModes(snapshot);
+  snapshot.__maxTile   = getMaxTileAcrossAllModes(snapshot);
+
+  const newly = [];
+  for (const item of achievements) {
+    if (unlockedSet.has(item.id)) continue;
+    try {
+      if (item.check?.(snapshot)) {
+        unlockedSet.add(item.id);
+        newly.push({ ...item, title: item.label });
+      }
+    } catch (e) {
+      console.warn("アチーブメント判定エラー (ingame)", item.id, e);
+    }
+  }
+
+  if (newly.length > 0) {
+    localStorage.setItem("achievements2048", JSON.stringify([...unlockedSet]));
+  }
+
+  return newly;
+}
+
 export function checkAchievements(stats) {
   const unlocked = JSON.parse(localStorage.getItem("achievements2048") || "[]");
   const newly = [];
@@ -1506,7 +1553,25 @@ export function renderAchievements(container) {
 }
 
 /* ===== アチーブメント達成通知 ===== */
+// アチーブメント通知は1つずつ順番に表示する（キュー方式）
+const achievementQueue = [];
+let achievementShowing = false;
+
+const ACHIEVEMENT_SHOW_MS = 3000; // 表示時間
+const ACHIEVEMENT_HIDE_MS = 400;  // フェードアウト時間
+const ACHIEVEMENT_GAP_MS = 200;   // 次を出すまでの間
+
 export function showAchievementNotification(achievement) {
+  achievementQueue.push(achievement);
+  processAchievementQueue();
+}
+
+function processAchievementQueue() {
+  if (achievementShowing) return;           // 表示中なら待つ
+  const achievement = achievementQueue.shift();
+  if (!achievement) return;                 // キューが空
+  achievementShowing = true;
+
   const el = document.createElement("div");
   el.className = "achievement-notification ingame";
 
@@ -1527,11 +1592,7 @@ export function showAchievementNotification(achievement) {
   `;
 
   document.body.appendChild(el);
-
-  const notifications = document.querySelectorAll(".achievement-notification.ingame");
-  notifications.forEach((item, index) => {
-    item.style.top = `${18 + index * 78}px`;
-  });
+  el.style.top = "18px"; // 1つずつなので常に同じ位置
 
   requestAnimationFrame(() => {
     el.classList.add("achievement-notif-show");
@@ -1542,11 +1603,9 @@ export function showAchievementNotification(achievement) {
 
     setTimeout(() => {
       el.remove();
-
-      const remaining = document.querySelectorAll(".achievement-notification.ingame");
-      remaining.forEach((item, index) => {
-        item.style.top = `${18 + index * 78}px`;
-      });
-    }, 400);
-  }, 3000);
+      achievementShowing = false;
+      // 少し間をあけて次のアチーブメントを表示
+      setTimeout(processAchievementQueue, ACHIEVEMENT_GAP_MS);
+    }, ACHIEVEMENT_HIDE_MS);
+  }, ACHIEVEMENT_SHOW_MS);
 }

@@ -160,7 +160,8 @@ export function move(state, direction) {
   state.moveCount++;
   state.moves.push(direction[0].toUpperCase());
 
-  if (state.modeKey === "maze" && Math.random() < (getMode(state).wallChangeRate || 0)) createBlockedCells(state);
+  // Mazeは壁マスを1つずつ判定し、35%の確率でそれぞれ別の空きマスへ動かす
+  if (state.modeKey === "maze") shiftBlockedCells(state, getMode(state).wallMoveRate || 0.35);
   if (state.modeKey === "shuffle" && state.moveCount % (getMode(state).shuffleInterval || 7) === 0) shuffleBoardTiles(state);
   if (state.modeKey === "split") splitRandomTile(state);
   if (state.modeKey === "blind") createHiddenCells(state);
@@ -183,6 +184,28 @@ export function createBlockedCells(state) {
   while (state.blockedCells.length < count && candidates.length) {
     const index = Math.floor(Math.random() * candidates.length);
     state.blockedCells.push(candidates.splice(index, 1)[0]);
+  }
+}
+
+// 壁マスを1つずつ判定し、それぞれ rate の確率で別の空きマスへ移動させる
+export function shiftBlockedCells(state, rate = 0.35) {
+  for (const wall of state.blockedCells) {
+    if (Math.random() >= rate) continue; // この壁は今回は動かさない
+
+    // 空き（タイルが無く、他の壁でもない）マスを集める。移動先候補から自分の現在地は除く
+    const empty = [];
+    for (let r = 0; r < state.size; r++) {
+      for (let c = 0; c < state.size; c++) {
+        if (state.board[r][c] !== 0) continue;
+        if (isBlockedCell(state, r, c)) continue;
+        empty.push({ r, c });
+      }
+    }
+    if (!empty.length) continue;
+
+    const spot = empty[Math.floor(Math.random() * empty.length)];
+    wall.r = spot.r;
+    wall.c = spot.c;
   }
 }
 

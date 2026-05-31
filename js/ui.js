@@ -44,7 +44,7 @@ function ensureToast() {
   const el = document.createElement("div");
   el.id = "toast";
   el.className = "toast hidden";
-  el.style.cssText = "position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:9999;background:#3c3a32;color:#fff;padding:12px 16px;border-radius:12px;box-shadow:0 4px 14px rgba(0,0,0,.18);font-weight:bold;";
+  el.style.cssText = "position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999;background:#3c3a32;color:#fff;padding:14px 20px;border-radius:12px;box-shadow:0 6px 22px rgba(0,0,0,.3);font-weight:bold;max-width:80vw;text-align:center;";
   document.body.appendChild(el);
   return el;
 }
@@ -178,13 +178,13 @@ export function renderBoard(boardEl, state) {
         cell.classList.add("blocked-cell");
         cell.textContent = "×";
       } else if (value) {
-        const hidden =
-          state.modeKey === "blind" &&
-          state.hiddenCells.includes(`${r}-${c}`);
+        const isBlind = state.modeKey === "blind";
+        const hidden = isBlind && state.hiddenCells.includes(`${r}-${c}`);
 
         cell.textContent = hidden ? "?" : value;
-        cell.style.background = hidden ? "#cdc1b4" : getCellColor(value);
-        cell.style.color = value >= 8 && !hidden ? "#f9f6f2" : "#776e65";
+        // Blindモードだけマスの色をなしにする（全マス同じ色）
+        cell.style.background = (hidden || isBlind) ? "#cdc1b4" : getCellColor(value);
+        cell.style.color = (value >= 8 && !hidden && !isBlind) ? "#f9f6f2" : "#776e65";
       }
 
       if (state.newCell?.r === r && state.newCell?.c === c) {
@@ -283,6 +283,63 @@ export function showResult(state, title = "ゲームオーバー") {
 export function closeModal(id) {
   $(id)?.classList.add("hidden");
   document.body.classList.remove("modal-open");
+}
+
+/**
+ * タイムアタック・サバイバル開始前のオーバーレイ
+ * Start を押したら onStart()、Back を押したら onBack() を呼ぶ
+ * Promise を返すので await で Start 押し待ちができる
+ */
+export function showStartOverlay(modeLabel, onStart, onBack) {
+  // 既存のオーバーレイを除去
+  document.getElementById("startOverlay")?.remove();
+
+  const overlay = document.createElement("div");
+  overlay.id = "startOverlay";
+  overlay.style.cssText = [
+    "position:fixed", "inset:0", "z-index:2000",
+    "display:flex", "flex-direction:column",
+    "align-items:center", "justify-content:center",
+    "background:rgba(0,0,0,0.55)", "gap:20px"
+  ].join(";");
+
+  overlay.innerHTML = `
+    <div style="
+      background:#faf8ef; border-radius:18px;
+      padding:32px 36px; text-align:center;
+      box-shadow:0 8px 32px rgba(0,0,0,0.28);
+      min-width:220px;
+    ">
+      <div style="font-size:1.1rem;color:#776e65;margin-bottom:6px;">モード</div>
+      <div style="font-size:1.6rem;font-weight:bold;color:#3c3a32;margin-bottom:24px;">
+        ${escapeText(modeLabel)}
+      </div>
+      <button id="startOverlayStart" style="
+        display:block; width:100%; margin-bottom:12px;
+        padding:14px 0; font-size:1.15rem; font-weight:bold;
+        background:#8f7a66; color:#fff; border:none;
+        border-radius:10px; cursor:pointer;
+      ">▶ Start</button>
+      <button id="startOverlayBack" style="
+        display:block; width:100%;
+        padding:10px 0; font-size:1rem;
+        background:#bbada0; color:#fff; border:none;
+        border-radius:10px; cursor:pointer;
+      ">← Back</button>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  document.getElementById("startOverlayStart").addEventListener("click", () => {
+    overlay.remove();
+    onStart();
+  });
+
+  document.getElementById("startOverlayBack").addEventListener("click", () => {
+    overlay.remove();
+    onBack();
+  });
 }
 
 let statsHistoryPage = 1;
