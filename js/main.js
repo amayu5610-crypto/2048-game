@@ -435,10 +435,17 @@ function doMove(direction) {
 function bindSwipe(el) {
   if (!el) return;
   let sx = 0, sy = 0;
+
   el.addEventListener("touchstart", e => {
     sx = e.touches[0].clientX;
     sy = e.touches[0].clientY;
   }, { passive: true });
+
+  // ★追加: 盤面上でのタッチ移動時はページスクロールを止める
+  el.addEventListener("touchmove", e => {
+    e.preventDefault();
+  }, { passive: false });
+
   el.addEventListener("touchend", e => {
     const dx = e.changedTouches[0].clientX - sx;
     const dy = e.changedTouches[0].clientY - sy;
