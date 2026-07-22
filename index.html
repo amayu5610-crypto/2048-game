@@ -138,9 +138,20 @@
   </section>
 
   <section id="gameScreen" class="screen hidden">
-    <div id="difficulty">Mode: Normal</div>
-    <div id="score">Score: 0</div>
-    <div id="bestScore">Best: 0</div>
+    <div class="info-bar">
+      <div id="difficulty" class="info-item">
+        <span class="info-icon" aria-hidden="true">🎮</span>
+        <span class="info-value" id="difficultyValue">Normal</span>
+      </div>
+      <div id="score" class="info-item">
+        <span class="info-label">SCORE</span>
+        <span class="info-value" id="scoreValue">0</span>
+      </div>
+      <div id="bestScore" class="info-item">
+        <span class="info-label">BEST</span>
+        <span class="info-value info-value-best" id="bestValue">0</span>
+      </div>
+    </div>
     <div id="status">Googleログインするとオンラインランキングに保存できます。</div>
 
     <div id="board"></div>

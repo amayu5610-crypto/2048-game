@@ -206,19 +206,19 @@ export function renderBoard(boardEl, state) {
 export function renderGameInfo(state, best = 0, currentUser = null) {
   if (!state) return;
 
-  $("score") && (
-    $("score").textContent =
-      `🏆 Score: ${Number(state.score || 0).toLocaleString()}`
+  $("scoreValue") && (
+    $("scoreValue").textContent =
+      Number(state.score || 0).toLocaleString()
   );
 
-  $("bestScore") && (
-    $("bestScore").textContent =
-      `⭐ Best: ${Number(best || 0).toLocaleString()}`
+  $("bestValue") && (
+    $("bestValue").textContent =
+      Number(best || 0).toLocaleString()
   );
 
-  $("difficulty") && (
-    $("difficulty").textContent =
-      `🎮 ${modes[state.modeKey]?.label || state.modeKey}`
+  $("difficultyValue") && (
+    $("difficultyValue").textContent =
+      modes[state.modeKey]?.label || state.modeKey
   );
 
   const status = $("status");
